@@ -463,11 +463,14 @@
     // ==========================================
     const DEFAULT_SESSION_LINKS = {};
     const DEFAULT_DRIVE_LINKS = {
-      '2026-11-24_삐그덕_1': 'https://drive.google.com/file/d/1O9mjqqH-EWGudNb2i1MRSSO7o2dAky3i/view?usp=drive_link',
-      '2026-11-06_complex_9': 'https://drive.google.com/file/d/1HdHR1H-xNJl1pJt3n4wcIA2urTdBSRnW/view?usp=drive_link',
-      '2026-08-31_alwaysrememberusthisway_53': 'https://drive.google.com/file/d/1nTaU_2azhTHiMPsaiuLahCImY0CB7Y3w/view?usp=drive_link',
-      '2025-07-19_athousandyears_262': 'https://drive.google.com/file/d/1ufQ0JK8s0ya229KVEtLiVX5ykv2hEvdQ/view?usp=drive_link',
-      '2024-08-10_晩餐歌_tuki_303': 'https://drive.google.com/file/d/1pxWm-bF2M9yfGw9tcz4VoOgvH42qCpn9/view?usp=drive_link'
+      '2026-11-24_삐그덕': 'https://drive.google.com/file/d/1O9mjqqH-EWGudNb2i1MRSSO7o2dAky3i/view?usp=drive_link',
+      '2026-11-08_물음표': 'https://drive.google.com/file/d/1ujsBtDZqLrgmx6DuZ_lf4K7arkiHqEI4/view?usp=drive_link',
+      '2026-11-06_complex': 'https://drive.google.com/file/d/1HdHR1H-xNJl1pJt3n4wcIA2urTdBSRnW/view?usp=drive_link',
+      '2026-10-16_obsessedwithyouth': 'https://drive.google.com/file/d/1MjQGFUbwZcfhnUYEZfejilbNEBetgxXM/view?usp=drive_link',
+      '2026-08-31_alwaysrememberusthisway': 'https://drive.google.com/file/d/1nTaU_2azhTHiMPsaiuLahCImY0CB7Y3w/view?usp=drive_link',
+      '2025-07-19_athousandyears': 'https://drive.google.com/file/d/1ufQ0JK8s0ya229KVEtLiVX5ykv2hEvdQ/view?usp=drive_link',
+      '2024-10-24_좌우맹': 'https://drive.google.com/file/d/1wMkk3pY5xc5JXBfSO9HWllFnwOfs1VBN/view?usp=drive_link',
+      '2024-08-10_晩餐歌_tuki': 'https://drive.google.com/file/d/1pxWm-bF2M9yfGw9tcz4VoOgvH42qCpn9/view?usp=drive_link'
     };
 
     const RAW_SESSIONS = [
@@ -689,7 +692,7 @@
         source: '260620 위버스라이브 소곤소곤 나른나른 우리들만의 시간',
         songs: [
           { title: '한 번 더, 안녕', artist: '영재' },
-          { title: '좌우맹', artist: 'Yorushika' },
+          { title: '左右盲 (좌우맹)', artist: 'Yorushika' },
           { title: '포옹', artist: '세븐틴' },
           { title: 'FML', artist: '세븐틴' },
           { title: '입춘', artist: '한로로' },
@@ -840,7 +843,7 @@
           { title: 'Blue', artist: 'DxS' },
           { title: 'Love Poem', artist: '아이유' },
           { title: '보통의 하루', artist: '정승환' },
-          { title: '좌우맹', artist: 'Yorushika' },
+          { title: '左右盲 (좌우맹)', artist: 'Yorushika' },
           { title: '0+0', artist: '한로로' },
           { title: '누난 너무 예뻐', artist: '샤이니' },
           { title: '캔디', artist: 'NCT DREAM' },
@@ -1012,7 +1015,7 @@
           { title: '첫 눈', artist: 'EXO', lengthType: 'snippet' },
           { title: 'To. X', artist: '태연', lengthType: 'snippet' },
           { title: '에피소드', artist: '이무진', lengthType: 'snippet' },
-          { title: '左右盲', artist: 'Yorushika', lengthType: 'snippet' },
+          { title: '左右盲 (좌우맹)', artist: 'Yorushika', lengthType: 'snippet' },
           { title: 'Here With Me', artist: 'd4vd', lengthType: 'snippet' },
           { title: 'Always', artist: 'Daniel Caesar', lengthType: 'full' },
           { title: '晩餐歌', artist: 'tuki.', lengthType: 'snippet' },
@@ -1043,7 +1046,7 @@
         date: '2024-10-24',
         source: '241024 TWSTUDIO',
         songs: [
-          { title: '左右盲', artist: 'Yorushika' }
+          { title: '左右盲 (좌우맹)', artist: 'Yorushika' }
         ]
       },
       {
@@ -1075,12 +1078,12 @@
     // ==========================================
     // 2. 정규화 및 초기 데이터셋 생성
     // ==========================================
-    const DATASET_VERSION = '2026-11-26-v16';
+    const DATASET_VERSION = '2026-11-26-v17';
 
     function normalizeSongKey(title, artist = '') {
       const cleaned = title
         .toLowerCase()
-        .replace(/\(만찬가\)|\(bansanka\)|\(영크크\)|\(power of love\)|\(남은 인생 10년 ost\)|\(혹은 쌍문동\)/g, '')
+        .replace(/\(만찬가\)|\(bansanka\)|\(영크크\)|\(power of love\)|\(남은 인생 10년 ost\)|\(혹은 쌍문동\)|\(좌우맹\)/g, '')
         .replace(/[\s\(\)\[\]\.,!?'"~♥\+\-]/g, '');
 
       const artistNorm = (artist || '').toLowerCase().replace(/\s+/g, '');
@@ -1255,7 +1258,8 @@
     }
 
     function getDriveLink(verId) {
-      const raw = (driveLinks[verId] || '').trim();
+      const baseId = (verId || '').replace(/_\d+$/, '');
+      const raw = (driveLinks[verId] || driveLinks[baseId] || '').trim();
       return raw ? formatGoogleDriveDirectUrl(raw) : '';
     }
 
