@@ -56,7 +56,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col pb-28">
+<body class="min-h-screen flex flex-col pb-12">
 
   <!-- 상단 헤더 -->
   <header class="sticky top-0 z-30 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
@@ -133,11 +133,11 @@
 
       <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
         <div class="flex items-center justify-between text-slate-500 text-xs font-semibold mb-1.5">
-          <span>연결된 MP3</span>
-          <span class="w-7 h-7 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">🎧</span>
+          <span>구글 드라이브 음원</span>
+          <span class="w-7 h-7 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">☁️</span>
         </div>
-        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="statMp3Count">0</div>
-        <div class="text-[11px] text-slate-400 mt-1">폴더 자동 감지 &amp; 로컬 저장</div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="statDriveCount">0개</div>
+        <div class="text-[11px] text-slate-400 mt-1">클릭 시 구글 드라이브 바로 이동</div>
       </div>
     </section>
 
@@ -201,8 +201,8 @@
           <button onclick="setQuickFilter('repeat')" id="qf-repeat" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
             🔁 2회 이상 가창곡만
           </button>
-          <button onclick="setQuickFilter('mp3')" id="qf-mp3" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
-            🎧 MP3 보유곡만
+          <button onclick="setQuickFilter('drive')" id="qf-drive" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
+            ☁️ 드라이브 보유곡만
           </button>
         </div>
 
@@ -216,7 +216,7 @@
             <option value="count">가창 횟수순</option>
             <option value="recent">최신 가창일순</option>
             <option value="alpha">가나다 / 알파벳순</option>
-            <option value="mp3">MP3 보유순</option>
+            <option value="drive">드라이브 링크 보유순</option>
           </select>
         </div>
       </div>
@@ -318,12 +318,43 @@
           <input type="text" id="addNoteInput" placeholder="예: with 경민, 무반주" class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">MP3 음원 파일 (선택)</label>
-          <input type="file" id="addMp3Input" accept="audio/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100" />
+          <label class="block text-xs font-bold text-slate-700 mb-1">구글 드라이브 링크 (선택)</label>
+          <input type="url" id="addDriveUrlInput" placeholder="https://drive.google.com/file/d/..." class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
         </div>
         <div class="flex items-center justify-end gap-2 pt-2">
           <button type="button" onclick="closeAddModal()" class="px-4 py-2 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer">취소</button>
           <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl cursor-pointer">아카이브에 추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 구글 드라이브 링크 설정 모달 (관리자 전용) -->
+  <div id="driveLinkModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-extrabold text-slate-900">구글 드라이브 다운로드 링크 연결</h3>
+        <button onclick="closeDriveLinkModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <div>
+        <div class="text-xs font-bold text-emerald-700 mb-1" id="driveLinkTargetLabel">곡명</div>
+        <p class="text-[11px] text-slate-500">구글 드라이브 파일/폴더 공유 링크를 입력하면 방문자가 클릭 시 바로 구글 드라이브 다운로드 페이지로 이동합니다. (파일 링크는 자동 직링크로 변환됩니다)</p>
+      </div>
+      <form onsubmit="handleDriveLinkSubmit(event)" class="space-y-3">
+        <input
+          type="url"
+          id="driveLinkUrlInput"
+          placeholder="https://drive.google.com/file/d/..."
+          class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500"
+        />
+        <div class="flex items-center justify-between gap-2 pt-2">
+          <button type="button" onclick="clearCurrentDriveLink()" class="text-xs font-semibold text-rose-500 hover:text-rose-600 cursor-pointer">
+            링크 삭제
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeDriveLinkModal()" class="px-3.5 py-2 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer">취소</button>
+            <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl cursor-pointer">저장</button>
+          </div>
         </div>
       </form>
     </div>
@@ -382,17 +413,33 @@
         </label>
       </div>
 
-      <!-- mp3 폴더 자동 연결 가이드 -->
-      <div class="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/70 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-extrabold text-emerald-900">📁 웹 배포 시 MP3 폴더 자동 연결 규칙</span>
-          <button onclick="copyMp3NamingGuide()" class="px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-[11px] font-bold text-emerald-700 hover:bg-emerald-100 cursor-pointer">
-            파일명 규칙 복사
-          </button>
-        </div>
+  <!-- 백업 / 복원 및 구글 드라이브 안내 모달 -->
+  <div id="backupModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-slate-900">데이터 백업 및 구글 드라이브 연동</h3>
+        <button onclick="closeBackupModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        수정한 원곡자 정보, 메모, 구글 드라이브 다운로드 링크, 추가한 곡 목록을 JSON 파일로 내보내거나 불러올 수 있습니다.
+      </p>
+
+      <div class="space-y-2.5">
+        <button onclick="exportArchiveJson()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
+          <span>📥 아카이브 목록 JSON 파일로 내보내기</span>
+        </button>
+
+        <label class="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
+          <span>📤 백업 JSON 파일 불러오기</span>
+          <input type="file" accept=".json" onchange="importArchiveJson(event)" class="hidden" />
+        </label>
+      </div>
+
+      <!-- 구글 드라이브 연결 가이드 -->
+      <div class="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/70 space-y-1.5">
+        <div class="text-xs font-extrabold text-emerald-900">☁️ 구글 드라이브 바로 다운로드 연결 팁</div>
         <p class="text-[11px] text-slate-600 leading-relaxed">
-          <code>index.html</code>과 같은 위치에 <code>mp3</code> 폴더를 만들고, 파일명을 <strong><code>YYMMDD_곡제목.mp3</code></strong> 형식으로 넣으면 방문자 모두에게 재생 버튼이 자동 활성화됩니다.<br/>
-          <span class="text-slate-500">예: <code>mp3/260902_바람.mp3</code>, <code>mp3/250422_Thirsty.mp3</code></span>
+          구글 드라이브에서 파일 공유 설정을 <strong>[링크가 있는 모든 사용자]</strong>로 변경 후 링크를 복사해 등록하세요. <code>/file/d/파일ID/view</code> 형식의 링크는 클릭 시 <strong>즉시 다운로드 링크</strong>로 자동 변환됩니다!
         </p>
       </div>
 
@@ -407,55 +454,21 @@
     </div>
   </div>
 
-  <!-- 숨겨진 공용 MP3 업로드 인풋 -->
-  <input type="file" id="inlineMp3Uploader" accept="audio/*" class="hidden" onchange="handleInlineMp3Selected(event)" />
-
-  <!-- 하단 미니 오디오 플레이어 -->
-  <footer id="audioPlayerBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg transition-transform duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3 min-w-0 flex-1 sm:flex-initial sm:w-72">
-        <div id="playerDisc" class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-          </svg>
-        </div>
-        <div class="min-w-0">
-          <div id="playerTitle" class="text-xs sm:text-sm font-bold text-slate-800 truncate">재생 중인 MP3가 없습니다</div>
-          <div id="playerSub" class="text-[11px] text-slate-400 truncate">mp3/ 폴더에 파일을 넣거나 직접 업로드해 재생하세요</div>
-        </div>
-      </div>
-
-      <div class="flex flex-col items-center flex-1 max-w-xl">
-        <div class="flex items-center gap-4 mb-1">
-          <button onclick="skipAudio(-5)" class="text-xs font-bold text-slate-500 hover:text-slate-800 cursor-pointer" title="5초 뒤로">-5s</button>
-          <button id="playPauseBtn" onclick="togglePlayPause()" disabled class="w-9 h-9 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center transition cursor-pointer">
-            ▶
-          </button>
-          <button onclick="skipAudio(5)" class="text-xs font-bold text-slate-500 hover:text-slate-800 cursor-pointer" title="5초 앞으로">+5s</button>
-        </div>
-        <div class="w-full flex items-center gap-2.5">
-          <span id="currentTimeLabel" class="text-[10px] font-mono text-slate-400 w-9 text-right">0:00</span>
-          <input type="range" id="seekBar" value="0" min="0" max="100" step="0.1" oninput="seekAudio(this.value)" class="flex-1" />
-          <span id="durationLabel" class="text-[10px] font-mono text-slate-400 w-9">0:00</span>
-        </div>
-      </div>
-
-      <div class="hidden sm:flex items-center justify-end w-40">
-        <button id="downloadCurrentMp3Btn" onclick="downloadCurrentMp3()" disabled class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-400 transition cursor-pointer">
-          MP3 저장
-        </button>
-      </div>
-    </div>
-  </footer>
-
   <!-- 토스트 알림 컨테이너 -->
   <div id="toastContainer" class="fixed top-20 right-4 z-50 space-y-2 pointer-events-none"></div>
 
   <script>
     // ==========================================
-    // 1. 초기 데이터셋 정의 및 기본 방송 링크
+    // 1. 초기 데이터셋 정의 및 기본 링크
     // ==========================================
     const DEFAULT_SESSION_LINKS = {};
+    const DEFAULT_DRIVE_LINKS = {
+      '2026-11-24_삐그덕_1': 'https://drive.google.com/file/d/1O9mjqqH-EWGudNb2i1MRSSO7o2dAky3i/view?usp=drive_link',
+      '2026-11-06_complex_9': 'https://drive.google.com/file/d/1HdHR1H-xNJl1pJt3n4wcIA2urTdBSRnW/view?usp=drive_link',
+      '2026-08-31_alwaysrememberusthisway_53': 'https://drive.google.com/file/d/1nTaU_2azhTHiMPsaiuLahCImY0CB7Y3w/view?usp=drive_link',
+      '2025-07-19_athousandyears_262': 'https://drive.google.com/file/d/1ufQ0JK8s0ya229KVEtLiVX5ykv2hEvdQ/view?usp=drive_link',
+      '2024-08-10_晩餐歌_tuki_303': 'https://drive.google.com/file/d/1pxWm-bF2M9yfGw9tcz4VoOgvH42qCpn9/view?usp=drive_link'
+    };
 
     const RAW_SESSIONS = [
       {
@@ -1060,255 +1073,114 @@
     ];
 
     // ==========================================
-    // 2. 정규화 및 초기 데이터 빌드 유틸리티
+    // 2. 정규화 및 초기 데이터셋 생성
     // ==========================================
+    const DATASET_VERSION = '2026-11-26-v16';
+
     function normalizeSongKey(title, artist = '') {
-      const t = (title || '').trim().toLowerCase().replace(/\s+/g, '');
-      const a = (artist || '').trim().toLowerCase().replace(/\s+/g, '');
+      const cleaned = title
+        .toLowerCase()
+        .replace(/\(만찬가\)|\(bansanka\)|\(영크크\)|\(power of love\)|\(남은 인생 10년 ost\)|\(혹은 쌍문동\)/g, '')
+        .replace(/[\s\(\)\[\]\.,!?'"~♥\+\-]/g, '');
 
-      // 동명이곡 분리 처리
-      if (t === '만찬가' || t === '晩餐歌' || t.includes('晩餐歌') || t.includes('bansanka')) {
-        if (a.includes('태연') || a.includes('taeyeon')) {
-          return 'song_manchanga_taeyeon';
-        }
-        return 'song_bansanka_tuki';
-      }
-      if (t === '그럴때마다') {
-        if (a.includes('토이') || a.includes('toy')) {
-          return 'song_geureolttaemada_toy';
-        }
-        return 'song_geureolttaemada_baekyerin';
-      }
-      if (t === 'love(dean)' || (t === 'love' && a.includes('dean'))) return 'song_love_dean';
-      if (t === 'love(keyshiacole)' || (t === 'love' && a.includes('keyshia'))) return 'song_love_keyshiacole';
-      if (t === '캔디') {
-        if (a.includes('hot')) return 'song_candy_hot';
-        return 'song_candy_nctdream';
-      }
+      const artistNorm = (artist || '').toLowerCase().replace(/\s+/g, '');
 
-      // 동일 곡 병합 매칭
-      if (t === '드림' || t === 'dream') return 'song_dream_baekhyun_suzy';
-      if (t === '좌우맹' || t === '左右盲') return 'song_sayuumou';
-      if (t === '한번더안녕' || t === '한번더,안녕') return 'song_hanbeondeoannyeong';
-      if (t === 'athousandyears') return 'song_athousandyears';
-      if (t === 'checklist' || t === 'checklist(feat.chromeo)') return 'song_checklist';
-      if (t === 'nomakeup') return 'song_nomakeup';
-      if (t === 'chewinggum') return 'song_chewinggum';
-      if (t === 'tryagain') return 'song_tryagain';
-      if (t === 'loveagain') return 'song_loveagain';
-      if (t === 'stillwithyou' || t === 'stillwithu') return 'song_stillwithyou';
-      if (t === 'amazingkiss') return 'song_amazingkiss';
-      if (t === 'lifetime') return 'song_lifetime';
-      if (t === 'astronomy') return 'song_astronomy';
-      if (t === 'instagram') return 'song_instagram';
-      if (t === 'always') return 'song_always';
-      if (t === '폰서트') return 'song_phonecert';
-      if (t === 'to.x' || t === 'tox') return 'song_tox';
-      if (t === '심야영화' || t === '심야영화(nowplaying)') return 'song_simyayeonghwa';
-      if (t === '그긴밤을지나온너에게') return 'song_geuginbam';
-      if (t === '와르르' || t === '와르르♥') return 'song_wareureu';
-      if (t === '니생각뿐') return 'song_nisaenggakppun';
-      if (t === '몰랐어' || t === '물랐어') return 'song_mollasseo';
-      if (t === '눈코입' || t === '눈,코,입' || t === '눈코입(❤️)') return 'song_nunkoip';
-      if (t === 'あいのちから(poweroflove)' || t === 'あいのちから') return 'song_ainochikara';
-      if (t === '明日も(ashitamo)' || t === 'あいことばあ시타모' || t === 'あいことば아시타모') return 'song_ashitamo';
-      if (t === '11:11') return 'song_1111';
-      if (t.includes('수련애정') || t.includes('修煉愛情') || t.includes('修炼爱情')) return 'song_suryeonaejeong';
-
-      return 'song_' + t.replace(/[^a-z0-9가-힣ぁ-んァ-ヶ一-龥]/g, '');
+      if (cleaned === '晩餐歌' || cleaned === '만찬가') {
+        if (artistNorm.includes('태연')) return '만찬가_태연';
+        return '晩餐歌_tuki';
+      }
+      if (cleaned === '그럴때마다') {
+        if (artistNorm.includes('토이')) return '그럴때마다_토이';
+        return '그럴때마다_백예린';
+      }
+      if (cleaned === '캔디') {
+        if (artistNorm.includes('hot')) return '캔디_hot';
+        return '캔디_nctdream';
+      }
+      if (cleaned === 'love') {
+        if (artistNorm.includes('dean')) return 'love_dean';
+        return 'love_keyshiacole';
+      }
+      if (cleaned === '니생각뿐') {
+        if (artistNorm.includes('브라운')) return '니생각뿐_브아솔';
+        return '니생각뿐_영준';
+      }
+      if (cleaned === '7시에들어줘') {
+        return '7시에들어줘';
+      }
+      if (cleaned === '좌우맹' || cleaned === '左右盲') return '좌우맹';
+      if (cleaned === '한번더안녕') return '한번더안녕';
+      if (cleaned === '와르르') return '와르르';
+      if (cleaned === 'dream' || cleaned === '드림') return 'dream_baekhyun_suzy';
+      return cleaned;
     }
 
-    function formatShortDate(dateStr) {
-      if (!dateStr) return '';
-      const parts = dateStr.split('-');
-      if (parts.length !== 3) return dateStr;
+    function formatShortDate(isoDate) {
+      const parts = isoDate.split('-');
+      if (parts.length !== 3) return isoDate;
       return `${parts[0].slice(2)}${parts[1]}${parts[2]}`;
     }
 
-    function getExpectedMp3Filename(dateStr, title) {
-      const shortDate = formatShortDate(dateStr);
-      const safeTitle = (title || '').trim().replace(/[\\/:*?"<>|]/g, '');
-      return `${shortDate}_${safeTitle}.mp3`;
-    }
-
     function buildInitialDataset() {
-      const songMap = new Map();
-      let globalOrder = 1;
+      const map = new Map();
+      let globalOrder = 0;
 
       RAW_SESSIONS.forEach((session) => {
-        session.songs.forEach((entry) => {
-          const key = normalizeSongKey(entry.title, entry.artist || '');
-          const lengthType = entry.lengthType === 'snippet' ? 'snippet' : 'full';
-          const verId = `${session.date}_${key}_${globalOrder}`;
-
-          const versionObj = {
-            id: verId,
+        session.songs.forEach((songItem) => {
+          globalOrder++;
+          const key = normalizeSongKey(songItem.title, songItem.artist);
+          if (!map.has(key)) {
+            map.set(key, {
+              key,
+              title: songItem.title,
+              artist: songItem.artist || '',
+              firstOrderIndex: globalOrder,
+              versions: []
+            });
+          }
+          const entry = map.get(key);
+          if (!entry.artist && songItem.artist) {
+            entry.artist = songItem.artist;
+          }
+          if (songItem.title === 'Dream') {
+            entry.title = 'Dream';
+          }
+          entry.versions.push({
+            id: `${session.date}_${key}_${globalOrder}`,
             date: session.date,
             source: session.source,
-            note: entry.note || '',
-            lengthType,
-            orderIndex: globalOrder++,
-            mp3FileName: getExpectedMp3Filename(session.date, entry.title)
-          };
-
-          if (!songMap.has(key)) {
-            songMap.set(key, {
-              key,
-              title: entry.title,
-              artist: entry.artist || '',
-              firstOrderIndex: versionObj.orderIndex,
-              versions: [versionObj]
-            });
-          } else {
-            const existing = songMap.get(key);
-            if (!existing.artist && entry.artist) {
-              existing.artist = entry.artist;
-            }
-            existing.versions.push(versionObj);
-          }
+            note: songItem.note || '',
+            lengthType: songItem.lengthType || 'full',
+            orderIndex: globalOrder
+          });
         });
       });
 
-      return Array.from(songMap.values());
+      return Array.from(map.values());
     }
 
     const INITIAL_DATASET = buildInitialDataset();
-    const DATASET_VERSION = 'v2026_11_26_full_archive_v44';
     const DEFAULT_ARTIST_BY_KEY = new Map(
-      INITIAL_DATASET.filter(s => s.artist).map(s => [s.key, s.artist])
+      INITIAL_DATASET.map((song) => [song.key, song.artist || ''])
     );
 
     // ==========================================
-    // 3. 상태 관리 및 스토리지 (LocalStorage + IndexedDB)
+    // 3. 상태 관리 및 스토리지 (LocalStorage)
     // ==========================================
     let archiveData = [];
     let sessionLinks = {};
+    let driveLinks = {};
     let currentTab = 'songs';
     let searchQuery = '';
-    let quickFilter = 'all'; // 'all' | 'full' | 'snippet' | 'repeat' | 'mp3'
+    let quickFilter = 'all'; // 'all' | 'full' | 'snippet' | 'repeat' | 'drive'
     let dateFilter = 'all';
     let sortBy = 'order';
     let activeSongKey = null;
-    let pendingUploadTarget = null;
     let editingSessionLinkKey = null;
+    let editingDriveVerId = null;
     let isAdminMode = false;
     let adminTapCount = 0;
     let adminTapTimer = null;
-
-    // MP3 상태 맵: verId -> { url, name, isStatic }
-    const mp3Registry = new Map();
-    const audioEl = new Audio();
-    let currentPlayingVerId = null;
-
-    const DB_NAME = 'YoungjaeCoverArchiveDB';
-    const STORE_NAME = 'mp3Blobs';
-
-    function openDb() {
-      return new Promise((resolve, reject) => {
-        try {
-          const req = indexedDB.open(DB_NAME, 1);
-          req.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-              db.createObjectStore(STORE_NAME, { keyPath: 'verId' });
-            }
-          };
-          req.onsuccess = () => resolve(req.result);
-          req.onerror = () => reject(req.error);
-        } catch (err) {
-          reject(err);
-        }
-      });
-    }
-
-    async function saveMp3Blob(verId, file) {
-      try {
-        const db = await openDb();
-        return new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, 'readwrite');
-          tx.objectStore(STORE_NAME).put({ verId, name: file.name, blob: file });
-          tx.oncomplete = () => resolve();
-          tx.onerror = () => reject(tx.error);
-        });
-      } catch (e) {
-        console.warn('IndexedDB 저장 실패:', e);
-      }
-    }
-
-    async function deleteMp3Blob(verId) {
-      try {
-        const db = await openDb();
-        return new Promise((resolve) => {
-          const tx = db.transaction(STORE_NAME, 'readwrite');
-          tx.objectStore(STORE_NAME).delete(verId);
-          tx.oncomplete = () => resolve();
-          tx.onerror = () => resolve();
-        });
-      } catch (e) {
-        console.warn('IndexedDB 삭제 실패:', e);
-      }
-    }
-
-    async function loadAllSavedMp3Blobs() {
-      try {
-        const db = await openDb();
-        return new Promise((resolve) => {
-          const tx = db.transaction(STORE_NAME, 'readonly');
-          const req = tx.objectStore(STORE_NAME).getAll();
-          req.onsuccess = () => {
-            const items = req.result || [];
-            items.forEach((item) => {
-              if (item && item.blob) {
-                const url = URL.createObjectURL(item.blob);
-                mp3Registry.set(item.verId, {
-                  url,
-                  name: item.name || 'uploaded.mp3',
-                  isStatic: false
-                });
-              }
-            });
-            resolve();
-          };
-          req.onerror = () => resolve();
-        });
-      } catch (e) {
-        console.warn('IndexedDB 로드 실패:', e);
-      }
-    }
-
-    // 배포 시 mp3/ 폴더 내 파일 자동 감지
-    async function probeStaticMp3Files() {
-      if (window.location.protocol === 'file:') return;
-      const checks = [];
-
-      archiveData.forEach((song) => {
-        song.versions.forEach((ver) => {
-          if (mp3Registry.has(ver.id)) return;
-          const fileName = ver.mp3FileName || getExpectedMp3Filename(ver.date, song.title);
-          const candidateUrl = `mp3/${encodeURIComponent(fileName)}`;
-
-          checks.push(
-            fetch(candidateUrl, { method: 'HEAD' })
-              .then((res) => {
-                if (res.ok) {
-                  mp3Registry.set(ver.id, {
-                    url: candidateUrl,
-                    name: fileName,
-                    isStatic: true
-                  });
-                }
-              })
-              .catch(() => {})
-          );
-        });
-      });
-
-      if (checks.length > 0) {
-        await Promise.all(checks);
-        updateStatsAndFilters();
-        renderCurrentView();
-      }
-    }
 
     function loadArchiveFromStorage() {
       try {
@@ -1346,6 +1218,45 @@
       } catch (e) {
         console.warn('방송 링크 저장 실패:', e);
       }
+    }
+
+    function loadDriveLinksFromStorage() {
+      try {
+        const saved = localStorage.getItem('yj_drive_links');
+        if (saved) {
+          driveLinks = { ...DEFAULT_DRIVE_LINKS, ...JSON.parse(saved) };
+          return;
+        }
+      } catch (e) {}
+      driveLinks = { ...DEFAULT_DRIVE_LINKS };
+    }
+
+    function saveDriveLinksToStorage() {
+      try {
+        localStorage.setItem('yj_drive_links', JSON.stringify(driveLinks));
+      } catch (e) {
+        console.warn('드라이브 링크 저장 실패:', e);
+      }
+    }
+
+    // 구글 드라이브 파일 공유 URL을 바로 다운로드 URL로 변환
+    function formatGoogleDriveDirectUrl(rawUrl) {
+      const url = (rawUrl || '').trim();
+      if (!url) return '';
+      const fileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (fileMatch && fileMatch[1]) {
+        return `https://drive.google.com/uc?export=download&id=${fileMatch[1]}`;
+      }
+      const openMatch = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+      if (openMatch && openMatch[1]) {
+        return `https://drive.google.com/uc?export=download&id=${openMatch[1]}`;
+      }
+      return url;
+    }
+
+    function getDriveLink(verId) {
+      const raw = (driveLinks[verId] || '').trim();
+      return raw ? formatGoogleDriveDirectUrl(raw) : '';
     }
 
     function getSessionLink(date, source) {
@@ -1481,7 +1392,8 @@
       document.getElementById('statTotalPerfs').textContent = `${totalPerfs}회`;
       document.getElementById('statDatesCount').textContent = `총 ${uniqueDates.size}일 · ${sessionOptions.size}개 방송/콘텐츠`;
       document.getElementById('statRepeatSongs').textContent = `${repeatSongs}곡`;
-      document.getElementById('statMp3Count').textContent = `${mp3Registry.size}개`;
+      const activeDriveCount = Object.values(driveLinks).filter((u) => (u || '').trim()).length;
+      document.getElementById('statDriveCount').textContent = `${activeDriveCount}개`;
 
       // 날짜 필터 셀렉트 갱신
       const dateSelect = document.getElementById('dateFilterSelect');
@@ -1562,7 +1474,7 @@
 
     function setQuickFilter(qf) {
       quickFilter = qf;
-      ['all', 'full', 'snippet', 'repeat', 'mp3'].forEach((id) => {
+      ['all', 'full', 'snippet', 'repeat', 'drive'].forEach((id) => {
         const btn = document.getElementById(`qf-${id}`);
         if (!btn) return;
         if (id === qf) {
@@ -1589,7 +1501,7 @@
       if (quickFilter === 'full' && version.lengthType === 'snippet') return false;
       if (quickFilter === 'snippet' && version.lengthType !== 'snippet') return false;
       if (quickFilter === 'repeat' && song.versions.length < 2) return false;
-      if (quickFilter === 'mp3' && !mp3Registry.has(version.id)) return false;
+      if (quickFilter === 'drive' && !getDriveLink(version.id)) return false;
 
       // 날짜/방송 필터 검사
       if (dateFilter !== 'all') {
@@ -1644,10 +1556,10 @@
         if (sortBy === 'alpha') {
           return a.title.localeCompare(b.title, 'ko');
         }
-        if (sortBy === 'mp3') {
-          const mp3A = a.versions.filter((v) => mp3Registry.has(v.id)).length;
-          const mp3B = b.versions.filter((v) => mp3Registry.has(v.id)).length;
-          return mp3B - mp3A || b.versions.length - a.versions.length;
+        if (sortBy === 'drive') {
+          const dA = a.versions.filter((v) => Boolean(getDriveLink(v.id))).length;
+          const dB = b.versions.filter((v) => Boolean(getDriveLink(v.id))).length;
+          return dB - dA || b.versions.length - a.versions.length;
         }
         return 0;
       });
@@ -1667,7 +1579,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           ${filteredSongs
             .map((song) => {
-              const hasAnyMp3 = song.matchedVersions.some((v) => mp3Registry.has(v.id));
+              const hasAnyDrive = song.matchedVersions.some((v) => Boolean(getDriveLink(v.id)));
               const isRepeat = song.versions.length >= 2;
               const sortedVersions = [...song.matchedVersions].sort(
                 (a, b) => (a.orderIndex || 0) - (b.orderIndex || 0)
@@ -1688,8 +1600,8 @@
                           ${song.versions.length}회 가창
                         </span>
                         ${
-                          hasAnyMp3
-                            ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/70">🎧 MP3</span>`
+                          hasAnyDrive
+                            ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/70">☁️ 드라이브</span>`
                             : ''
                         }
                       </div>
@@ -1709,8 +1621,7 @@
                   <div class="space-y-1.5 pt-2 border-t border-slate-100">
                     ${sortedVersions
                       .map((ver) => {
-                        const mp3 = mp3Registry.get(ver.id);
-                        const isPlaying = currentPlayingVerId === ver.id && !audioEl.paused;
+                        const dLink = getDriveLink(ver.id);
                         const isSnippet = ver.lengthType === 'snippet';
                         const sLink = getSessionLink(ver.date, ver.source);
 
@@ -1740,20 +1651,16 @@
                             </div>
                             <div class="shrink-0 flex items-center gap-1">
                               ${
-                                mp3
-                                  ? `<button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${
-                                      isPlaying
-                                        ? 'bg-teal-600 text-white'
-                                        : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                                    } transition cursor-pointer">
-                                      ${isPlaying ? '⏸ 일시정지' : '▶ 재생'}
-                                    </button>
-                                    <button onclick="downloadVersionMp3('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition cursor-pointer" title="MP3 다운로드 (${escapeHtml(mp3.name || '')})">
-                                      ⬇
-                                    </button>`
-                                  : isAdminMode
-                                  ? `<button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-500 hover:text-emerald-600 hover:border-emerald-300 transition cursor-pointer" title="예상 파일명: ${escapeHtml(ver.mp3FileName || '')}">
-                                      + MP3
+                                dLink
+                                  ? `<a href="${escapeHtml(dLink)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition inline-flex items-center gap-1" title="구글 드라이브에서 다운로드">
+                                      <span>⬇</span><span>드라이브</span>
+                                    </a>`
+                                  : ''
+                              }
+                              ${
+                                isAdminMode
+                                  ? `<button onclick="openDriveLinkModal('${escapeHtml(ver.id)}', '${escapeHtml(song.title)} (${escapeHtml(ver.source)})')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-500 hover:text-emerald-600 hover:border-emerald-300 transition cursor-pointer">
+                                      ${dLink ? '수정' : '+ 드라이브'}
                                     </button>`
                                   : ''
                               }
@@ -1846,8 +1753,7 @@
                   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                     ${orderedItems
                       .map(({ song, ver }, idx) => {
-                        const mp3 = mp3Registry.get(ver.id);
-                        const isPlaying = currentPlayingVerId === ver.id && !audioEl.paused;
+                        const dLink = getDriveLink(ver.id);
                         const isSnippet = ver.lengthType === 'snippet';
 
                         return `
@@ -1869,18 +1775,16 @@
                             </div>
                             <div class="shrink-0 flex items-center gap-1">
                               ${
-                                mp3
-                                  ? `<button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${
-                                      isPlaying ? 'bg-teal-600 text-white' : 'bg-emerald-600 text-white'
-                                    } cursor-pointer">
-                                      ${isPlaying ? '⏸' : '▶'}
-                                    </button>
-                                    <button onclick="downloadVersionMp3('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 cursor-pointer" title="MP3 다운로드">
+                                dLink
+                                  ? `<a href="${escapeHtml(dLink)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition" title="구글 드라이브에서 다운로드">
                                       ⬇
-                                    </button>`
-                                  : isAdminMode
-                                  ? `<button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-400 hover:text-emerald-600 cursor-pointer">
-                                      +MP3
+                                    </a>`
+                                  : ''
+                              }
+                              ${
+                                isAdminMode
+                                  ? `<button onclick="openDriveLinkModal('${escapeHtml(ver.id)}', '${escapeHtml(song.title)} (${escapeHtml(ver.source)})')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-400 hover:text-emerald-600 cursor-pointer">
+                                      ${dLink ? '✎' : '+링크'}
                                     </button>`
                                   : ''
                               }
@@ -1926,10 +1830,8 @@
 
       listEl.innerHTML = versions
         .map((ver) => {
-          const mp3 = mp3Registry.get(ver.id);
-          const isPlaying = currentPlayingVerId === ver.id && !audioEl.paused;
+          const dLink = getDriveLink(ver.id);
           const isSnippet = ver.lengthType === 'snippet';
-          const expectedName = ver.mp3FileName || getExpectedMp3Filename(ver.date, song.title);
           const sLink = getSessionLink(ver.date, ver.source);
 
           return `
@@ -1975,28 +1877,17 @@
 
                 <div class="flex items-center gap-1.5">
                   ${
-                    mp3
-                      ? `
-                        <button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${
-                          isPlaying ? 'bg-teal-600 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                        } cursor-pointer">
-                          ${isPlaying ? '⏸ 일시정지' : '▶ 바로 재생'}
-                        </button>
-                        <button onclick="downloadVersionMp3('${escapeHtml(ver.id)}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition cursor-pointer">
-                          ⬇ 다운로드
-                        </button>
-                        ${
-                          isAdminMode && !mp3.isStatic
-                            ? `<button onclick="removeVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-rose-500 hover:bg-rose-50 cursor-pointer">삭제</button>`
-                            : ''
-                        }
-                      `
-                      : isAdminMode
-                      ? `
-                        <button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:border-emerald-400 hover:text-emerald-600 cursor-pointer">
-                          + MP3 업로드
-                        </button>
-                      `
+                    dLink
+                      ? `<a href="${escapeHtml(dLink)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition inline-flex items-center gap-1">
+                          <span>⬇ 구글 드라이브 다운로드</span>
+                        </a>`
+                      : ''
+                  }
+                  ${
+                    isAdminMode
+                      ? `<button onclick="openDriveLinkModal('${escapeHtml(ver.id)}', '${escapeHtml(song.title)} (${escapeHtml(ver.source)})')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:border-emerald-400 hover:text-emerald-600 cursor-pointer">
+                          ${dLink ? '드라이브 수정' : '+ 드라이브 링크'}
+                        </button>`
                       : ''
                   }
                 </div>
@@ -2005,7 +1896,7 @@
               ${
                 isAdminMode
                   ? `
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-200/60">
+                    <div class="flex items-center gap-2 pt-2 border-t border-slate-200/60">
                       <input
                         type="text"
                         value="${escapeHtml(ver.note || '')}"
@@ -2013,9 +1904,6 @@
                         placeholder="메모 입력 (예: with 경민, 무반주 고음)"
                         class="flex-1 px-2.5 py-1 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-emerald-500"
                       />
-                      <span class="text-[10px] font-mono text-slate-400 shrink-0">
-                        폴더 파일명: mp3/${escapeHtml(expectedName)}
-                      </span>
                     </div>
                   `
                   : ver.note
@@ -2026,6 +1914,52 @@
           `;
         })
         .join('');
+    }
+
+    function openDriveLinkModal(verId, label) {
+      editingDriveVerId = verId;
+      document.getElementById('driveLinkTargetLabel').textContent = label;
+      document.getElementById('driveLinkUrlInput').value = driveLinks[verId] || '';
+      document.getElementById('driveLinkModal').classList.remove('hidden');
+    }
+
+    function closeDriveLinkModal() {
+      document.getElementById('driveLinkModal').classList.add('hidden');
+      editingDriveVerId = null;
+    }
+
+    function handleDriveLinkSubmit(e) {
+      e.preventDefault();
+      if (!editingDriveVerId) return;
+      const url = document.getElementById('driveLinkUrlInput').value.trim();
+      if (url) {
+        driveLinks[editingDriveVerId] = url;
+      } else {
+        delete driveLinks[editingDriveVerId];
+      }
+      saveDriveLinksToStorage();
+      updateStatsAndFilters();
+      renderCurrentView();
+      if (activeSongKey) {
+        const song = archiveData.find((s) => s.key === activeSongKey);
+        if (song) renderModalVersionsList(song);
+      }
+      closeDriveLinkModal();
+      showToast('구글 드라이브 다운로드 링크가 저장되었습니다!', 'success');
+    }
+
+    function clearCurrentDriveLink() {
+      if (!editingDriveVerId) return;
+      delete driveLinks[editingDriveVerId];
+      saveDriveLinksToStorage();
+      updateStatsAndFilters();
+      renderCurrentView();
+      if (activeSongKey) {
+        const song = archiveData.find((s) => s.key === activeSongKey);
+        if (song) renderModalVersionsList(song);
+      }
+      closeDriveLinkModal();
+      showToast('구글 드라이브 링크가 삭제되었습니다.', 'info');
     }
 
     function openSessionLinkModal(date, source) {
@@ -2122,7 +2056,7 @@
       document.getElementById('addSourceUrlInput').value = '';
       document.getElementById('addLengthTypeInput').value = 'full';
       document.getElementById('addNoteInput').value = '';
-      document.getElementById('addMp3Input').value = '';
+      document.getElementById('addDriveUrlInput').value = '';
       document.getElementById('addModal').classList.remove('hidden');
     }
 
@@ -2140,7 +2074,7 @@
       document.getElementById('addModal').classList.add('hidden');
     }
 
-    async function handleAddSubmit(e) {
+    function handleAddSubmit(e) {
       e.preventDefault();
       const title = document.getElementById('addTitleInput').value.trim();
       const artist = document.getElementById('addArtistInput').value.trim();
@@ -2149,8 +2083,7 @@
       const sourceUrl = document.getElementById('addSourceUrlInput').value.trim();
       const lengthType = document.getElementById('addLengthTypeInput').value;
       const note = document.getElementById('addNoteInput').value.trim();
-      const fileInput = document.getElementById('addMp3Input');
-      const file = fileInput.files && fileInput.files[0];
+      const driveUrl = document.getElementById('addDriveUrlInput').value.trim();
 
       if (!title || !date || !source) return;
 
@@ -2167,8 +2100,7 @@
         source,
         note,
         lengthType,
-        orderIndex: 0,
-        mp3FileName: getExpectedMp3Filename(date, title)
+        orderIndex: 0
       };
 
       let song = archiveData.find((s) => s.key === key);
@@ -2186,10 +2118,9 @@
         archiveData.unshift(song);
       }
 
-      if (file) {
-        await saveMp3Blob(verId, file);
-        const url = URL.createObjectURL(file);
-        mp3Registry.set(verId, { url, name: file.name, isStatic: false });
+      if (driveUrl) {
+        driveLinks[verId] = driveUrl;
+        saveDriveLinksToStorage();
       }
 
       saveArchiveToStorage();
@@ -2200,170 +2131,7 @@
     }
 
     // ==========================================
-    // 7. MP3 업로드 및 미니 플레이어 제어
-    // ==========================================
-    function triggerInlineMp3Upload(verId) {
-      pendingUploadTarget = verId;
-      const uploader = document.getElementById('inlineMp3Uploader');
-      uploader.value = '';
-      uploader.click();
-    }
-
-    async function handleInlineMp3Selected(e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file || !pendingUploadTarget) return;
-      const verId = pendingUploadTarget;
-      pendingUploadTarget = null;
-
-      await saveMp3Blob(verId, file);
-      const url = URL.createObjectURL(file);
-      mp3Registry.set(verId, { url, name: file.name, isStatic: false });
-
-      updateStatsAndFilters();
-      renderCurrentView();
-      if (activeSongKey) {
-        const song = archiveData.find((s) => s.key === activeSongKey);
-        if (song) renderModalVersionsList(song);
-      }
-      showToast(`MP3 파일(${file.name})이 연결되었습니다!`, 'success');
-    }
-
-    async function removeVersionMp3(songKey, verId) {
-      const existing = mp3Registry.get(verId);
-      if (existing && !existing.isStatic && existing.url) {
-        URL.revokeObjectURL(existing.url);
-      }
-      mp3Registry.delete(verId);
-      await deleteMp3Blob(verId);
-
-      if (currentPlayingVerId === verId) {
-        audioEl.pause();
-        currentPlayingVerId = null;
-        document.getElementById('playPauseBtn').textContent = '▶';
-      }
-
-      updateStatsAndFilters();
-      renderCurrentView();
-      const song = archiveData.find((s) => s.key === songKey);
-      if (song) renderModalVersionsList(song);
-      showToast('연결된 로컬 MP3가 삭제되었습니다.', 'info');
-    }
-
-    function playVersionMp3(songKey, verId) {
-      const mp3 = mp3Registry.get(verId);
-      if (!mp3) return;
-
-      const song = archiveData.find((s) => s.key === songKey);
-      const ver = song ? song.versions.find((v) => v.id === verId) : null;
-
-      if (currentPlayingVerId === verId) {
-        togglePlayPause();
-        return;
-      }
-
-      currentPlayingVerId = verId;
-      audioEl.src = mp3.url;
-      audioEl.play().catch((err) => {
-        console.warn('재생 오류:', err);
-        showToast('오디오를 재생할 수 없습니다.', 'error');
-      });
-
-      document.getElementById('playerTitle').textContent = song ? song.title : mp3.name;
-      document.getElementById('playerSub').textContent = ver
-        ? `${ver.source} (${ver.date})`
-        : mp3.name;
-
-      const playBtn = document.getElementById('playPauseBtn');
-      playBtn.disabled = false;
-      playBtn.className =
-        'w-9 h-9 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition cursor-pointer';
-      playBtn.textContent = '⏸';
-
-      const dlBtn = document.getElementById('downloadCurrentMp3Btn');
-      dlBtn.disabled = false;
-      dlBtn.className =
-        'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition cursor-pointer';
-
-      document.getElementById('playerDisc').className =
-        'w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 animate-pulse';
-
-      renderCurrentView();
-      if (activeSongKey) {
-        const activeSong = archiveData.find((s) => s.key === activeSongKey);
-        if (activeSong) renderModalVersionsList(activeSong);
-      }
-    }
-
-    function togglePlayPause() {
-      if (!audioEl.src) return;
-      if (audioEl.paused) {
-        audioEl.play();
-      } else {
-        audioEl.pause();
-      }
-    }
-
-    function skipAudio(sec) {
-      if (!audioEl.src || isNaN(audioEl.duration)) return;
-      audioEl.currentTime = Math.max(0, Math.min(audioEl.duration, audioEl.currentTime + sec));
-    }
-
-    function seekAudio(pct) {
-      if (!audioEl.src || isNaN(audioEl.duration)) return;
-      audioEl.currentTime = (pct / 100) * audioEl.duration;
-    }
-
-    function formatTime(sec) {
-      if (isNaN(sec) || !isFinite(sec)) return '0:00';
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
-
-    function downloadVersionMp3(verId) {
-      const mp3 = mp3Registry.get(verId);
-      if (!mp3) return;
-      const a = document.createElement('a');
-      a.href = mp3.url;
-      a.download = mp3.name || 'youngjae_cover.mp3';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      showToast(`다운로드를 시작합니다: ${mp3.name || 'MP3'}`, 'success');
-    }
-
-    function downloadCurrentMp3() {
-      if (!currentPlayingVerId) return;
-      downloadVersionMp3(currentPlayingVerId);
-    }
-
-    audioEl.addEventListener('timeupdate', () => {
-      if (!audioEl.duration) return;
-      const pct = (audioEl.currentTime / audioEl.duration) * 100;
-      document.getElementById('seekBar').value = pct;
-      document.getElementById('currentTimeLabel').textContent = formatTime(audioEl.currentTime);
-      document.getElementById('durationLabel').textContent = formatTime(audioEl.duration);
-    });
-
-    audioEl.addEventListener('play', () => {
-      document.getElementById('playPauseBtn').textContent = '⏸';
-      renderCurrentView();
-    });
-
-    audioEl.addEventListener('pause', () => {
-      document.getElementById('playPauseBtn').textContent = '▶';
-      document.getElementById('playerDisc').classList.remove('animate-pulse');
-      renderCurrentView();
-    });
-
-    audioEl.addEventListener('ended', () => {
-      document.getElementById('playPauseBtn').textContent = '▶';
-      document.getElementById('playerDisc').classList.remove('animate-pulse');
-      renderCurrentView();
-    });
-
-    // ==========================================
-    // 8. 백업 / 복원 / 초기화 및 앱 부트스트랩
+    // 7. 백업 / 복원 / 초기화 및 앱 부트스트랩
     // ==========================================
     function openBackupModal() {
       document.getElementById('backupModal').classList.remove('hidden');
@@ -2374,7 +2142,12 @@
     }
 
     function exportArchiveJson() {
-      const blob = new Blob([JSON.stringify(archiveData, null, 2)], {
+      const payload = {
+        archiveData,
+        driveLinks,
+        sessionLinks
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {
         type: 'application/json'
       });
       const url = URL.createObjectURL(blob);
@@ -2395,8 +2168,21 @@
       reader.onload = (ev) => {
         try {
           const parsed = JSON.parse(ev.target.result);
-          if (!Array.isArray(parsed)) throw new Error('Invalid format');
-          archiveData = parsed;
+          if (Array.isArray(parsed)) {
+            archiveData = parsed;
+          } else if (parsed && Array.isArray(parsed.archiveData)) {
+            archiveData = parsed.archiveData;
+            if (parsed.driveLinks) {
+              driveLinks = parsed.driveLinks;
+              saveDriveLinksToStorage();
+            }
+            if (parsed.sessionLinks) {
+              sessionLinks = parsed.sessionLinks;
+              saveSessionLinksToStorage();
+            }
+          } else {
+            throw new Error('Invalid format');
+          }
           saveArchiveToStorage();
           updateStatsAndFilters();
           renderCurrentView();
@@ -2409,24 +2195,6 @@
       reader.readAsText(file);
     }
 
-    function copyMp3NamingGuide() {
-      const lines = [];
-      archiveData.forEach((song) => {
-        song.versions.forEach((ver) => {
-          const fname = ver.mp3FileName || getExpectedMp3Filename(ver.date, song.title);
-          lines.push(`mp3/${fname}  (${ver.source} - ${song.title})`);
-        });
-      });
-      const text = lines.join('\n');
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      ta.remove();
-      showToast(`전체 ${lines.length}개 MP3 파일명 규칙이 클립보드에 복사되었습니다!`, 'success');
-    }
-
     function resetToDefaultDataset() {
       archiveData = JSON.parse(JSON.stringify(INITIAL_DATASET));
       saveArchiveToStorage();
@@ -2436,14 +2204,13 @@
       showToast('최신 기본 아카이브 데이터로 초기화되었습니다.', 'success');
     }
 
-    window.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('DOMContentLoaded', () => {
       initAdminMode();
       loadArchiveFromStorage();
       loadSessionLinksFromStorage();
-      await loadAllSavedMp3Blobs();
+      loadDriveLinksFromStorage();
       updateStatsAndFilters();
       renderCurrentView();
-      probeStaticMp3Files();
     });
   </script>
 </body>
