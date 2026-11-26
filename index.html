@@ -1738,8 +1738,7 @@
                                   : ''
                               }
                             </div>
-
-                            <div class="shrink-0">
+                            <div class="shrink-0 flex items-center gap-1">
                               ${
                                 mp3
                                   ? `<button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${
@@ -1748,6 +1747,9 @@
                                         : 'bg-emerald-600 hover:bg-emerald-700 text-white'
                                     } transition cursor-pointer">
                                       ${isPlaying ? '⏸ 일시정지' : '▶ 재생'}
+                                    </button>
+                                    <button onclick="downloadVersionMp3('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition cursor-pointer" title="MP3 다운로드 (${escapeHtml(mp3.name || '')})">
+                                      ⬇
                                     </button>`
                                   : isAdminMode
                                   ? `<button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-500 hover:text-emerald-600 hover:border-emerald-300 transition cursor-pointer" title="예상 파일명: ${escapeHtml(ver.mp3FileName || '')}">
@@ -1865,14 +1867,16 @@
                                 ${ver.note ? ` · <span class="text-emerald-600 font-semibold">${escapeHtml(ver.note)}</span>` : ''}
                               </div>
                             </div>
-
-                            <div class="shrink-0">
+                            <div class="shrink-0 flex items-center gap-1">
                               ${
                                 mp3
                                   ? `<button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${
                                       isPlaying ? 'bg-teal-600 text-white' : 'bg-emerald-600 text-white'
                                     } cursor-pointer">
                                       ${isPlaying ? '⏸' : '▶'}
+                                    </button>
+                                    <button onclick="downloadVersionMp3('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 cursor-pointer" title="MP3 다운로드">
+                                      ⬇
                                     </button>`
                                   : isAdminMode
                                   ? `<button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-400 hover:text-emerald-600 cursor-pointer">
@@ -1977,6 +1981,9 @@
                           isPlaying ? 'bg-teal-600 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'
                         } cursor-pointer">
                           ${isPlaying ? '⏸ 일시정지' : '▶ 바로 재생'}
+                        </button>
+                        <button onclick="downloadVersionMp3('${escapeHtml(ver.id)}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition cursor-pointer">
+                          ⬇ 다운로드
                         </button>
                         ${
                           isAdminMode && !mp3.isStatic
@@ -2313,9 +2320,8 @@
       return `${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
-    function downloadCurrentMp3() {
-      if (!currentPlayingVerId) return;
-      const mp3 = mp3Registry.get(currentPlayingVerId);
+    function downloadVersionMp3(verId) {
+      const mp3 = mp3Registry.get(verId);
       if (!mp3) return;
       const a = document.createElement('a');
       a.href = mp3.url;
@@ -2323,6 +2329,12 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
+      showToast(`다운로드를 시작합니다: ${mp3.name || 'MP3'}`, 'success');
+    }
+
+    function downloadCurrentMp3() {
+      if (!currentPlayingVerId) return;
+      downloadVersionMp3(currentPlayingVerId);
     }
 
     audioEl.addEventListener('timeupdate', () => {
