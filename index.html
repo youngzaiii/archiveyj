@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TWS 영재 커버곡 아카이브 | YOUNGJAE COVER ARCHIVE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 5px;
+      border-radius: 9999px;
+      background: #e2e8f0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #059669;
+      margin-top: -4.5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pb-28">
+
+  <!-- 상단 헤더 -->
+  <header class="sticky top-0 z-30 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div onclick="handleSecretAdminTap()" class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-sm shrink-0 cursor-pointer select-none">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 truncate">
+              TWS 영재 커버곡 아카이브
+            </h1>
+            <span onclick="handleSecretAdminTap()" class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200/80 cursor-pointer select-none" title="TWS YOUNGJAE ARCHIVE">
+              ARCHIVE
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminToolbar" class="hidden items-center gap-2 shrink-0">
+        <button onclick="openBackupModal()" class="px-3 py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200/80 rounded-xl transition flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+          <span class="hidden sm:inline">백업 / 배포 안내</span>
+        </button>
+        <button onclick="openAddModal()" class="px-3.5 py-2 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] rounded-xl shadow-sm shadow-emerald-600/20 transition flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span>커버곡 / 버전 추가</span>
+        </button>
+        <button onclick="disableAdminMode()" class="px-2.5 py-2 text-xs font-semibold text-slate-500 hover:text-slate-700 bg-slate-100 rounded-xl transition cursor-pointer" title="관리자 메뉴 숨기기">
+          잠금
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- 상단 통계 카드 -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+        <div class="flex items-center justify-between text-slate-500 text-xs font-semibold mb-1.5">
+          <span>아카이빙 곡 수</span>
+          <span class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">🎵</span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="statUniqueSongs">0</div>
+        <div class="text-[11px] text-slate-400 mt-1">중복 곡 자동 병합 기준</div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+        <div class="flex items-center justify-between text-slate-500 text-xs font-semibold mb-1.5">
+          <span>총 가창 기록</span>
+          <span class="w-7 h-7 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">🎤</span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="statTotalPerfs">0</div>
+        <div class="text-[11px] text-slate-400 mt-1" id="statDatesCount">총 0개 방송/콘텐츠</div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+        <div class="flex items-center justify-between text-slate-500 text-xs font-semibold mb-1.5">
+          <span>다회 가창곡 (2회+)</span>
+          <span class="w-7 h-7 rounded-xl bg-lime-100/80 text-lime-700 flex items-center justify-center">🔁</span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="statRepeatSongs">0</div>
+        <div class="text-[11px] text-slate-400 mt-1">여러 날짜에 부른 애창곡</div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+        <div class="flex items-center justify-between text-slate-500 text-xs font-semibold mb-1.5">
+          <span>연결된 MP3</span>
+          <span class="w-7 h-7 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">🎧</span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="statMp3Count">0</div>
+        <div class="text-[11px] text-slate-400 mt-1">폴더 자동 감지 &amp; 로컬 저장</div>
+      </div>
+    </section>
+
+    <!-- 최다 가창 애창곡 하이라이트 -->
+    <section class="bg-gradient-to-r from-emerald-50 via-teal-50/70 to-slate-50 rounded-2xl p-4 sm:p-5 border border-emerald-200/60">
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-xs font-bold">HOT</span>
+          <h2 class="text-sm sm:text-base font-bold text-slate-800">영재가 여러 번 부른 대표 커버곡</h2>
+        </div>
+        <span class="text-xs text-slate-500 hidden sm:inline">클릭하면 날짜별 가창 이력을 비교할 수 있어요</span>
+      </div>
+      <div id="repeatHighlights" class="flex gap-2.5 overflow-x-auto pb-1">
+        <!-- JS 동적 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 탭 및 검색/필터 컨트롤 바 -->
+    <section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- 뷰 전환 탭 -->
+        <div class="inline-flex p-1 bg-slate-100 rounded-xl self-start">
+          <button id="tabSongs" onclick="switchTab('songs')" class="px-4 py-2 text-xs sm:text-sm font-bold rounded-lg bg-white text-emerald-600 shadow-xs transition cursor-pointer">
+            곡별로 모아보기
+          </button>
+          <button id="tabTimeline" onclick="switchTab('timeline')" class="px-4 py-2 text-xs sm:text-sm font-bold rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer">
+            날짜별 타임라인
+          </button>
+        </div>
+
+        <!-- 검색창 -->
+        <div class="relative flex-1 max-w-md">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            oninput="handleSearch(this.value)"
+            placeholder="곡 제목, 원곡자, 날짜(예: 260703), 방송명 검색..."
+            class="w-full pl-10 pr-9 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition"
+          />
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- 하단 세부 필터 및 정렬 -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="setQuickFilter('all')" id="qf-all" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-800 text-white transition cursor-pointer">
+            전체 보기
+          </button>
+          <button onclick="setQuickFilter('full')" id="qf-full" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
+            🎵 1절 이상만
+          </button>
+          <button onclick="setQuickFilter('snippet')" id="qf-snippet" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
+            ✨ 한 소절만
+          </button>
+          <button onclick="setQuickFilter('repeat')" id="qf-repeat" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
+            🔁 2회 이상 가창곡만
+          </button>
+          <button onclick="setQuickFilter('mp3')" id="qf-mp3" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer">
+            🎧 MP3 보유곡만
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <select id="dateFilterSelect" onchange="setDateFilter(this.value)" class="px-3 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-emerald-500">
+            <option value="all">모든 날짜 / 방송</option>
+          </select>
+
+          <select id="sortSelect" onchange="setSortBy(this.value)" class="px-3 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-emerald-500">
+            <option value="order">적은 순서대로 (세트리스트순)</option>
+            <option value="count">가창 횟수순</option>
+            <option value="recent">최신 가창일순</option>
+            <option value="alpha">가나다 / 알파벳순</option>
+            <option value="mp3">MP3 보유순</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <section id="contentArea" class="min-h-[320px]">
+      <!-- JS 동적 렌더링 -->
+    </section>
+
+  </main>
+
+  <!-- 곡 상세 및 날짜별 버전 비교 모달 -->
+  <div id="detailModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[88vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50/70">
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+            <span id="modalCountBadge" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-700">
+              총 1회 가창
+            </span>
+            <span id="modalFirstDateBadge" class="text-xs font-medium text-slate-500">
+              최초 가창: -
+            </span>
+          </div>
+          <h3 id="modalSongTitle" class="text-xl sm:text-2xl font-extrabold text-slate-900 break-words">곡 제목</h3>
+          <div id="modalArtistEditRow" class="hidden mt-2 items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500">원곡자:</span>
+            <input
+              type="text"
+              id="modalArtistInput"
+              onchange="updateSongArtist(this.value)"
+              placeholder="원곡자 입력 (예: 성시경, tuki.)"
+              class="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-emerald-500 w-52"
+            />
+          </div>
+          <p id="modalArtistReadonly" class="text-xs font-medium text-slate-500 mt-1"></p>
+        </div>
+        <button onclick="closeDetailModal()" class="w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center shrink-0 cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-3 flex-1" id="modalVersionsList">
+        <!-- JS 동적 렌더링 -->
+      </div>
+
+      <div class="p-4 sm:px-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3">
+        <button id="modalAddVersionBtn" onclick="openAddVersionForCurrentSong()" class="hidden px-4 py-2 text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-100/80 hover:bg-emerald-200/80 rounded-xl transition cursor-pointer">
+          + 이 곡에 새 날짜 버전 추가
+        </button>
+        <div class="flex-1"></div>
+        <button onclick="closeDetailModal()" class="px-4 py-2 text-xs sm:text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-xl transition cursor-pointer">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 커버곡 / 새 버전 추가 모달 (관리자 전용) -->
+  <div id="addModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-extrabold text-slate-900">새 커버곡 / 버전 추가</h3>
+        <button onclick="closeAddModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <form onsubmit="handleAddSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">곡 제목 *</label>
+          <input type="text" id="addTitleInput" required placeholder="예: 바람" class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">원곡자</label>
+          <input type="text" id="addArtistInput" placeholder="예: 최유리" class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">가창 날짜 *</label>
+            <input type="date" id="addDateInput" required class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">가창 분량</label>
+            <select id="addLengthTypeInput" class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500">
+              <option value="full">🎵 1절 이상</option>
+              <option value="snippet">✨ 한 소절</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">방송 / 콘텐츠명 *</label>
+          <input type="text" id="addSourceInput" required placeholder="예: 261125 위버스라이브" class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">방송 다시보기 링크 (선택)</label>
+          <input type="url" id="addSourceUrlInput" placeholder="https://weverse.io/tws/live/..." class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">메모 (선택)</label>
+          <input type="text" id="addNoteInput" placeholder="예: with 경민, 무반주" class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">MP3 음원 파일 (선택)</label>
+          <input type="file" id="addMp3Input" accept="audio/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100" />
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeAddModal()" class="px-4 py-2 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer">취소</button>
+          <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl cursor-pointer">아카이브에 추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 방송 원본 링크 설정 모달 (관리자 전용) -->
+  <div id="sessionLinkModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-extrabold text-slate-900">방송 다시보기 링크 연결</h3>
+        <button onclick="closeSessionLinkModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <div>
+        <div class="text-xs font-bold text-emerald-700 mb-1" id="sessionLinkTargetLabel">방송명</div>
+        <p class="text-[11px] text-slate-500">링크를 저장하면 방문자가 방송 제목을 클릭할 때 해당 페이지로 바로 이동합니다.</p>
+      </div>
+      <form onsubmit="handleSessionLinkSubmit(event)" class="space-y-3">
+        <input
+          type="url"
+          id="sessionLinkUrlInput"
+          placeholder="https://weverse.io/tws/live/..."
+          class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500"
+        />
+        <div class="flex items-center justify-between gap-2 pt-2">
+          <button type="button" onclick="clearCurrentSessionLink()" class="text-xs font-semibold text-rose-500 hover:text-rose-600 cursor-pointer">
+            링크 삭제
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeSessionLinkModal()" class="px-3.5 py-2 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer">취소</button>
+            <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl cursor-pointer">저장</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 백업 / 복원 및 MP3 폴더 안내 모달 -->
+  <div id="backupModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-slate-900">데이터 백업 및 MP3 폴더 연동</h3>
+        <button onclick="closeBackupModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        수정한 원곡자 정보, 메모, 추가한 곡 목록을 JSON 파일로 내보내거나 불러올 수 있습니다.
+      </p>
+
+      <div class="space-y-2.5">
+        <button onclick="exportArchiveJson()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
+          <span>📥 아카이브 목록 JSON 파일로 내보내기</span>
+        </button>
+
+        <label class="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
+          <span>📤 백업 JSON 파일 불러오기</span>
+          <input type="file" accept=".json" onchange="importArchiveJson(event)" class="hidden" />
+        </label>
+      </div>
+
+      <!-- mp3 폴더 자동 연결 가이드 -->
+      <div class="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/70 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold text-emerald-900">📁 웹 배포 시 MP3 폴더 자동 연결 규칙</span>
+          <button onclick="copyMp3NamingGuide()" class="px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-[11px] font-bold text-emerald-700 hover:bg-emerald-100 cursor-pointer">
+            파일명 규칙 복사
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-600 leading-relaxed">
+          <code>index.html</code>과 같은 위치에 <code>mp3</code> 폴더를 만들고, 파일명을 <strong><code>YYMMDD_곡제목.mp3</code></strong> 형식으로 넣으면 방문자 모두에게 재생 버튼이 자동 활성화됩니다.<br/>
+          <span class="text-slate-500">예: <code>mp3/260902_바람.mp3</code>, <code>mp3/250422_Thirsty.mp3</code></span>
+        </p>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+        <button onclick="resetToDefaultDataset()" class="text-xs font-semibold text-rose-500 hover:text-rose-600 cursor-pointer">
+          초기 데이터로 재설정 (35일·280회)
+        </button>
+        <button onclick="closeBackupModal()" class="px-4 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl cursor-pointer">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 숨겨진 공용 MP3 업로드 인풋 -->
+  <input type="file" id="inlineMp3Uploader" accept="audio/*" class="hidden" onchange="handleInlineMp3Selected(event)" />
+
+  <!-- 하단 미니 오디오 플레이어 -->
+  <footer id="audioPlayerBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg transition-transform duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0 flex-1 sm:flex-initial sm:w-72">
+        <div id="playerDisc" class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div id="playerTitle" class="text-xs sm:text-sm font-bold text-slate-800 truncate">재생 중인 MP3가 없습니다</div>
+          <div id="playerSub" class="text-[11px] text-slate-400 truncate">mp3/ 폴더에 파일을 넣거나 직접 업로드해 재생하세요</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center flex-1 max-w-xl">
+        <div class="flex items-center gap-4 mb-1">
+          <button onclick="skipAudio(-5)" class="text-xs font-bold text-slate-500 hover:text-slate-800 cursor-pointer" title="5초 뒤로">-5s</button>
+          <button id="playPauseBtn" onclick="togglePlayPause()" disabled class="w-9 h-9 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center transition cursor-pointer">
+            ▶
+          </button>
+          <button onclick="skipAudio(5)" class="text-xs font-bold text-slate-500 hover:text-slate-800 cursor-pointer" title="5초 앞으로">+5s</button>
+        </div>
+        <div class="w-full flex items-center gap-2.5">
+          <span id="currentTimeLabel" class="text-[10px] font-mono text-slate-400 w-9 text-right">0:00</span>
+          <input type="range" id="seekBar" value="0" min="0" max="100" step="0.1" oninput="seekAudio(this.value)" class="flex-1" />
+          <span id="durationLabel" class="text-[10px] font-mono text-slate-400 w-9">0:00</span>
+        </div>
+      </div>
+
+      <div class="hidden sm:flex items-center justify-end w-40">
+        <button id="downloadCurrentMp3Btn" onclick="downloadCurrentMp3()" disabled class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-400 transition cursor-pointer">
+          MP3 저장
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 토스트 알림 컨테이너 -->
+  <div id="toastContainer" class="fixed top-20 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+  <script>
+    // ==========================================
+    // 1. 초기 데이터셋 정의 및 기본 방송 링크
+    // ==========================================
+    const DEFAULT_SESSION_LINKS = {};
+
+    const RAW_SESSIONS = [
+      {
+        date: '2026-11-24',
+        source: '261124 인스타그램',
+        songs: [
+          { title: '삐그덕', artist: '크러쉬', note: 'with 경민' }
+        ]
+      },
+      {
+        date: '2026-11-08',
+        source: '261108 보컬챌린지',
+        songs: [
+          { title: '물음표', artist: '한로로' }
+        ]
+      },
+      {
+        date: '2026-11-08',
+        source: '261108 위버스라이브 밥묵자',
+        songs: [
+          { title: 'Heavy', artist: '투어스', lengthType: 'snippet' },
+          { title: 'We Up', artist: '투어스', lengthType: 'snippet' },
+          { title: '내 이름을 불러줘', artist: '투어스', lengthType: 'snippet' },
+          { title: '한 번 더, 안녕', artist: '영재', lengthType: 'snippet' },
+          { title: '연애의 조건', artist: '베스티', lengthType: 'snippet' },
+          { title: 'Dream', artist: '백현 (Baekhyun) & 수지 (Suzy)', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-11-06',
+        source: '261106 더시즌즈',
+        songs: [
+          { title: 'Complex', artist: '자이언티', note: 'with 신유, 경민' }
+        ]
+      },
+      {
+        date: '2026-10-16',
+        source: '261016 보컬챌린지',
+        songs: [
+          { title: 'Obsessed with Youth', artist: 'Xdinary Heroes' }
+        ]
+      },
+      {
+        date: '2026-10-15',
+        source: '261015 위버스라이브 🍗🍗',
+        songs: [
+          { title: '사랑한 마음엔 죄가 없다', artist: '소란', lengthType: 'snippet' },
+          { title: 'Out of Time', artist: 'The Weeknd', lengthType: 'snippet' },
+          { title: 'Celebrity', artist: '아이유', lengthType: 'snippet' },
+          { title: 'One Call Away', artist: 'Charlie Puth', lengthType: 'snippet' },
+          { title: 'Unplugged Boy', artist: '투어스', lengthType: 'snippet' },
+          { title: 'Love', artist: 'Keyshia Cole', lengthType: 'snippet' },
+          { title: 'Amazing Kiss', artist: '보아', lengthType: 'snippet' },
+          { title: '우주를 줄게', artist: '볼빨간사춘기', lengthType: 'snippet' },
+          { title: '晩餐歌 (만찬가)', artist: 'tuki.', lengthType: 'snippet' },
+          { title: '만찬가', artist: '태연', lengthType: 'snippet' },
+          { title: 'Echo', artist: 'TUIDE', lengthType: 'snippet' },
+          { title: 'Thirsty', artist: '에스파', lengthType: 'snippet' },
+          { title: '심야영화', artist: '투어스', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-09-24',
+        source: '260924 인스타그램',
+        songs: [
+          { title: '해바라기', artist: '현서' }
+        ]
+      },
+      {
+        date: '2026-09-10',
+        source: '260910 위버스라이브 평범한 목요일밤',
+        songs: [
+          { title: '소다소다', artist: '투어스', lengthType: 'snippet' },
+          { title: 'あいのちから (Power of Love)', artist: '세븐틴', lengthType: 'snippet' },
+          { title: '晩餐歌 (Bansanka)', artist: 'tuki.', lengthType: 'snippet' },
+          { title: 'A Thousand Years', artist: 'Christina Perri', lengthType: 'snippet' },
+          { title: '明日も (Ashita mo)', artist: 'SHISHAMO', lengthType: 'snippet' },
+          { title: 'Anti-Hero', artist: 'Taylor Swift', lengthType: 'snippet' },
+          { title: 'Nothing', artist: 'Bruno Major', lengthType: 'snippet' },
+          { title: '뻐끔', artist: '최유리', lengthType: 'snippet' },
+          { title: '세상아 동화처럼', artist: '최유리', lengthType: 'snippet' },
+          { title: '오랜만이야', artist: '최유리', lengthType: 'snippet' },
+          { title: '단 하나', artist: '최유리', lengthType: 'snippet' },
+          { title: '외로움이라는 건', artist: '최유리', lengthType: 'snippet' },
+          { title: '행복한 나를', artist: '에코', lengthType: 'snippet' },
+          { title: '몰랐어', artist: '엔하이픈', lengthType: 'snippet' },
+          { title: '있잖아', artist: '보이넥스트도어', lengthType: 'snippet' },
+          { title: '내 머리가 나빠서', artist: 'SS501', lengthType: 'snippet' },
+          { title: '봄 내음보다 너를', artist: '김나영', lengthType: 'snippet' },
+          { title: '밤편지', artist: '아이유', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-09-02',
+        source: '260902 위버스라이브 커몬커몬',
+        songs: [
+          { title: '바람', artist: '최유리', lengthType: 'snippet' },
+          { title: '오랜만이야', artist: '최유리', lengthType: 'snippet' },
+          { title: 'A Thousand Years', artist: 'Christina Perri' },
+          { title: 'YELLOW', artist: '트레저', lengthType: 'snippet' },
+          { title: '방황하는 젊음', artist: '최유리' },
+          { title: '사계절', artist: '최유리' },
+          { title: '풀꽃', artist: '최유리' },
+          { title: '너의 모든 순간', artist: '성시경' },
+          { title: '바라봐줘요', artist: '죠지' },
+          { title: 'To Let A Good Thing Die', artist: 'Bruno Major' },
+          { title: '그 긴 밤을 지나온 너에게', artist: '영재&한진', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-08-31',
+        source: '260831 위버스포스트',
+        songs: [
+          { title: 'Always Remember Us This Way', artist: 'Lady Gaga' }
+        ]
+      },
+      {
+        date: '2026-08-01',
+        source: '260801 위버스라이브 8월시작~',
+        songs: [
+          { title: '막사랑', artist: '최유리' },
+          { title: '수련애정(修煉愛情)', artist: 'JJ Lin', lengthType: 'snippet' },
+          { title: 'TV', artist: 'Billie Eilish' },
+          { title: '만찬가', artist: '태연' },
+          { title: '그럴 때마다', artist: '백예린', lengthType: 'snippet' },
+          { title: '운이 좋았지', artist: '권진아' },
+          { title: '폰서트', artist: '10CM' },
+          { title: 'What is Love', artist: 'EXO', lengthType: 'snippet' },
+          { title: 'Love Yourself', artist: 'Justin Bieber' },
+          { title: 'Lifetime', artist: 'Justin Bieber' },
+          { title: '그 긴 밤을 지나온 너에게', artist: '영재&한진', lengthType: 'snippet' },
+          { title: 'A', artist: 'GOT7', lengthType: 'snippet' },
+          { title: 'A Thousand Years', artist: 'Christina Perri' },
+          { title: '스토커', artist: '10CM' },
+          { title: '세상아 동화처럼', artist: '최유리' },
+          { title: '오랜만이야', artist: '최유리' },
+          { title: 'IF YOU', artist: '빅뱅' },
+          { title: '밤, 바다', artist: '최유리' }
+        ]
+      },
+      {
+        date: '2026-07-31',
+        source: '260731 유리의 숲',
+        songs: [
+          { title: '바람', artist: '최유리' },
+          { title: '막사랑', artist: '최유리' }
+        ]
+      },
+      {
+        date: '2026-07-16',
+        source: '260716 위버스라이브 기니피그의 날을 축하하며~🐹',
+        songs: [
+          { title: '생각을 멈추다 보면', artist: '최유리' },
+          { title: '우주를 줄게', artist: '볼빨간사춘기' },
+          { title: 'Odoriko', artist: 'Vaundy' },
+          { title: '미워', artist: '크러쉬', lengthType: 'snippet' },
+          { title: '7시에 들어줘', artist: '부석순', lengthType: 'snippet' },
+          { title: '한여름밤의 꿀', artist: 'San E', lengthType: 'snippet' },
+          { title: '너 없인 안 된다', artist: '비투비', lengthType: 'snippet' },
+          { title: '사계절', artist: '최유리' },
+          { title: '그 긴 밤을 지나온 너에게', artist: '영재&한진' },
+          { title: 'Blueming', artist: '아이유' },
+          { title: 'Seven', artist: '정국' },
+          { title: '널 따라가', artist: '투어스' },
+          { title: 'overthinking', artist: '투어스' }
+        ]
+      },
+      {
+        date: '2026-07-03',
+        source: '260703 위버스라이브 강릉여행재밌었다잉👍👍',
+        songs: [
+          { title: '내일이 되어 줄게', artist: '투어스', lengthType: 'snippet' },
+          { title: 'Checklist', artist: 'MAX', lengthType: 'snippet' },
+          { title: '사계', artist: '태연', lengthType: 'snippet' },
+          { title: '폰서트', artist: '10CM', lengthType: 'snippet' },
+          { title: '우리의 언어', artist: '최유리', lengthType: 'snippet' },
+          { title: 'Moon River', artist: 'Audrey Hepburn', lengthType: 'snippet' },
+          { title: '눈사람', artist: '정승환', lengthType: 'snippet' },
+          { title: '한 번 더 안녕', artist: '영재', lengthType: 'snippet' },
+          { title: '산소 같은 너', artist: '샤이니', lengthType: 'snippet' },
+          { title: '그리워하다', artist: '비투비', lengthType: 'snippet' },
+          { title: 'First Love', artist: '우타다 히카루', lengthType: 'snippet' },
+          { title: 'overthinking', artist: '투어스', lengthType: 'snippet' },
+          { title: 'OVERDRIVE', artist: '투어스', lengthType: 'snippet' },
+          { title: '내 사랑 내 곁에', artist: '홍이삭', lengthType: 'snippet' },
+          { title: 'Double Take', artist: '투어스', lengthType: 'snippet' },
+          { title: '소문의 낙원', artist: 'AKMU', lengthType: 'snippet' },
+          { title: '심야영화', artist: '투어스', lengthType: 'snippet' },
+          { title: '생각을 멈추다 보면', artist: '최유리', lengthType: 'snippet' },
+          { title: 'hey! hey!', artist: '투어스', lengthType: 'snippet' },
+          { title: 'BFF', artist: '투어스', lengthType: 'snippet' },
+          { title: '비가 오는 날엔', artist: '비스트', lengthType: 'snippet' },
+          { title: '그럴 때마다', artist: '토이', lengthType: 'snippet' },
+          { title: '너의 모든 순간', artist: '성시경', lengthType: 'snippet' },
+          { title: 'Try Again', artist: '디어,재현', lengthType: 'snippet' },
+          { title: '여보세요', artist: '뉴이스트', lengthType: 'snippet' },
+          { title: 'Oh Little Girl', artist: '슬레이트', lengthType: 'snippet' },
+          { title: 'ICONIC BY MISTAKE', artist: 'LE SSERAFIM (르세라핌), 아일릿(ILLIT), KATSEYE', lengthType: 'snippet' },
+          { title: '晩餐歌(만찬가)', artist: 'tuki.', lengthType: 'snippet' },
+          { title: 'Snooze', artist: 'SZA', lengthType: 'snippet' },
+          { title: 'Soft Spot', artist: 'keshi', lengthType: 'snippet' },
+          { title: '그 긴 밤을 지나온 너에게', artist: '영재&한진', lengthType: 'snippet' },
+          { title: 'toxic till the end', artist: 'ROSÉ', lengthType: 'snippet' },
+          { title: 'I Love You 3000', artist: 'Stephanie Poetri', lengthType: 'snippet' },
+          { title: '와르르', artist: 'Colde', lengthType: 'snippet' },
+          { title: 'Heavy Serenade', artist: '엔믹스', lengthType: 'snippet' },
+          { title: 'Thirsty', artist: '에스파', lengthType: 'snippet' },
+          { title: 'Back To Strangers', artist: '투어스', lengthType: 'snippet' },
+          { title: '갑자기', artist: 'IOI', lengthType: 'snippet' },
+          { title: 'Pretender', artist: 'Official髭男dism', lengthType: 'snippet' },
+          { title: '우리 사랑은 필름 같았으면 해요', artist: '그_냥', lengthType: 'snippet' },
+          { title: 'Best Part', artist: 'Daniel Caesar (feat. H.E.R.)', lengthType: 'snippet' },
+          { title: '우주를 줄게', artist: '볼빨간사춘기', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-06-20',
+        source: '260620 위버스라이브 소곤소곤 나른나른 우리들만의 시간',
+        songs: [
+          { title: '한 번 더, 안녕', artist: '영재' },
+          { title: '좌우맹', artist: 'Yorushika' },
+          { title: '포옹', artist: '세븐틴' },
+          { title: 'FML', artist: '세븐틴' },
+          { title: '입춘', artist: '한로로' },
+          { title: 'Checklist', artist: 'MAX' },
+          { title: '잊어버리지마', artist: '크러쉬', lengthType: 'snippet' },
+          { title: '나빠', artist: '크러쉬' },
+          { title: '내가 태양이라면', artist: '투어스' },
+          { title: '생각을 멈추다 보면', artist: '최유리' },
+          { title: '바이럴', artist: '보이넥스트도어', lengthType: 'snippet' },
+          { title: 'Lemon', artist: 'Kenshi Yonezu' },
+          { title: '봄눈', artist: '10CM' },
+          { title: '원하고 원망하죠', artist: '애즈원', lengthType: 'snippet' },
+          { title: '도망가자', artist: '선우정아' },
+          { title: '남자가 사랑할 때', artist: '인피니트' },
+          { title: '너 때문에', artist: '애프터스쿨', lengthType: 'snippet' },
+          { title: '내 머리가 나빠서', artist: 'SS501', lengthType: 'snippet' },
+          { title: '봄 내음보다 너를', artist: '김나영' },
+          { title: '그대가 오면', artist: '승관' },
+          { title: '자니', artist: '프라이머리', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-05-12',
+        source: '260512 위버스라이브 커몬커몬',
+        songs: [
+          { title: '11:11', artist: '태연' },
+          { title: '어른', artist: 'Sondia' },
+          { title: 'All of the Stars', artist: 'Ed Sheeran' },
+          { title: 'Photograph', artist: 'Ed Sheeran' },
+          { title: 'As It Was', artist: 'Harry Styles' },
+          { title: 'Die For You', artist: 'The Weeknd' },
+          { title: 'Save Your Tears', artist: 'The Weeknd' },
+          { title: 'Off My Face', artist: 'Justin Bieber' },
+          { title: 'Changes', artist: 'Justin Bieber' },
+          { title: 'Seven', artist: '정국' },
+          { title: 'Steal The Show', artist: 'Lauv' },
+          { title: 'Never Not', artist: 'Lauv' },
+          { title: '주저하는 연인들을 위해', artist: '잔나비' },
+          { title: '수련애정(修煉愛情)', artist: 'JJ Lin', lengthType: 'snippet' },
+          { title: '사탕', artist: '세븐틴' },
+          { title: '애인 있어요', artist: '이은미', lengthType: 'snippet' },
+          { title: '서쪽 하늘', artist: '이승철', lengthType: 'snippet' },
+          { title: '하품', artist: '세븐틴' }
+        ]
+      },
+      {
+        date: '2026-05-07',
+        source: '260507 TWSTUDIO',
+        songs: [
+          { title: '기쁨, 슬픔, 아름다운 마음', artist: 'AKMU' }
+        ]
+      },
+      {
+        date: '2026-04-15',
+        source: '260415 위버스라이브 우리 다함께 노래합시다',
+        songs: [
+          { title: 'First Love', artist: '우타다 히카루', lengthType: 'snippet' },
+          { title: '행복한 나를', artist: '에코', lengthType: 'snippet' },
+          { title: 'When This Rain Stops', artist: '웬디', lengthType: 'snippet' },
+          { title: '위로', artist: '권진아' },
+          { title: '내 사랑 내 곁에', artist: '홍이삭' },
+          { title: 'Love Again', artist: '백현' },
+          { title: '한 번 더, 안녕', artist: '영재', lengthType: 'snippet' },
+          { title: 'Boyfriend', artist: 'Justin Bieber', lengthType: 'snippet' },
+          { title: '明日も (Ashita mo)', artist: 'SHISHAMO', lengthType: 'snippet' },
+          { title: '희재', artist: '성시경' },
+          { title: 'YOUNGCREATORCREW (영크크)', artist: '코르티스', lengthType: 'snippet' },
+          { title: '팝콘', artist: '도경수' },
+          { title: 'Instagram', artist: 'DEAN' },
+          { title: 'Still With You', artist: '정국' },
+          { title: "We Don't Talk Anymore", artist: 'Charlie Puth', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-04-02',
+        source: '260402 위버스포스트',
+        songs: [
+          { title: 'Nothing', artist: 'Bruno Major' }
+        ]
+      },
+      {
+        date: '2026-04-02',
+        source: '260402 놀라운 목요일',
+        songs: [
+          { title: '한 페이지가 될 수 있게', artist: '데이식스', note: 'with 도훈' },
+          { title: '캔디', artist: 'HOT', note: 'with 도훈' }
+        ]
+      },
+      {
+        date: '2026-03-20',
+        source: '260320 위버스라이브 😉💙',
+        songs: [
+          { title: '내일 할 일', artist: '윤종신', lengthType: 'snippet' },
+          { title: '내가 태양이라면', artist: '투어스', lengthType: 'snippet' },
+          { title: '소나기', artist: 'IOI', lengthType: 'snippet' },
+          { title: 'Joyride', artist: '코르티스', lengthType: 'snippet' },
+          { title: 'YOUNGCREATORCREW (영크크)', artist: '코르티스', lengthType: 'snippet' },
+          { title: 'I', artist: '태연', lengthType: 'snippet' },
+          { title: '널 생각해', artist: '원모어찬스', lengthType: 'snippet' },
+          { title: '우연히 봄', artist: '로꼬, 유주', lengthType: 'snippet' },
+          { title: 'Blue', artist: 'DxS', lengthType: 'snippet' },
+          { title: 'Blue Valentine', artist: '엔믹스', lengthType: 'snippet' },
+          { title: 'Kissing You', artist: '소녀시대', lengthType: 'snippet' },
+          { title: '캐치캐치', artist: '최예나', lengthType: 'snippet' },
+          { title: '우리 왜 헤어져야 해', artist: '신예영', lengthType: 'snippet' },
+          { title: '다시 만난 세계', artist: '소녀시대', lengthType: 'snippet' },
+          { title: 'Oh Little Girl', artist: '슬레이트', lengthType: 'snippet' },
+          { title: '금요일에 만나요', artist: '아이유', lengthType: 'snippet' },
+          { title: '드림', artist: '수지, 백현', lengthType: 'snippet' },
+          { title: 'Drowning', artist: '우즈', lengthType: 'snippet' },
+          { title: '하루 끝', artist: '아이유', lengthType: 'snippet' },
+          { title: 'Rude', artist: 'Hearts2Hearts', lengthType: 'snippet' },
+          { title: 'Lucky to be loved', artist: '투어스', lengthType: 'snippet' },
+          { title: '봄 사랑 벚꽃 말고', artist: '하이포, 아이유', lengthType: 'snippet' },
+          { title: '내 입술...따뜻한 커피처럼', artist: '샵', lengthType: 'snippet' },
+          { title: '남자가 사랑할 때', artist: '인피니트', lengthType: 'snippet' },
+          { title: '방백', artist: '샤이니', lengthType: 'snippet' },
+          { title: 'Darl+ing', artist: '세븐틴', lengthType: 'snippet' }
+        ]
+      },
+      {
+        date: '2026-03-10',
+        source: '260310 보컬챌린지',
+        songs: [
+          { title: '초봄', artist: '최유리' }
+        ]
+      },
+      {
+        date: '2026-03-02',
+        source: '260302 42라면 들어오시오😏😏',
+        songs: [
+          { title: '하루종일', artist: '죠지' },
+          { title: '내 입술...따뜻한 커피처럼', artist: '샵', lengthType: 'snippet' },
+          { title: '방황하는 젊음', artist: '최유리', lengthType: 'snippet' },
+          { title: '좋다고 말해', artist: '볼빨간사춘기', lengthType: 'snippet' },
+          { title: '우주를 줄게', artist: '볼빨간사춘기', lengthType: 'snippet' },
+          { title: '폰서트', artist: '10CM' },
+          { title: 'Checklist', artist: 'MAX' },
+          { title: "Nothing's Gonna Change My Love for You", artist: 'George Benson' },
+          { title: '사계', artist: '태연' }
+        ]
+      },
+      {
+        date: '2026-02-16',
+        source: '260216 위버스라이브 커몬커몬',
+        songs: [
+          { title: 'This Is How You Fall in Love', artist: 'Jeremy Zucker & Chelsea Cutler' },
+          { title: 'Blue', artist: 'DxS' },
+          { title: 'Love Poem', artist: '아이유' },
+          { title: '보통의 하루', artist: '정승환' },
+          { title: '좌우맹', artist: 'Yorushika' },
+          { title: '0+0', artist: '한로로' },
+          { title: '누난 너무 예뻐', artist: '샤이니' },
+          { title: '캔디', artist: 'NCT DREAM' },
+          { title: 'I See the Light', artist: 'Mandy Moore & Zachary Levi' },
+          { title: 'Stay', artist: '2NE1' },
+          { title: 'Love', artist: 'Keyshia Cole' },
+          { title: '혜화동 (혹은 쌍문동)', artist: '박보람' },
+          { title: '무릎', artist: '아이유' }
+        ]
+      },
+      {
+        date: '2026-01-28',
+        source: '260128 보컬챌린지',
+        songs: [
+          { title: 'Blue', artist: 'DxS', note: 'with 경민' }
+        ]
+      },
+      {
+        date: '2026-01-21',
+        source: '260121 보컬챌린지',
+        songs: [
+          { title: 'Killer Joy', artist: '씨엔블루' }
+        ]
+      },
+      {
+        date: '2025-11-07',
+        source: '251107 보컬챌린지',
+        songs: [
+          { title: '앞머리', artist: '정승환' }
+        ]
+      },
+      {
+        date: '2025-11-01',
+        source: '251101 위버스라이브 오늘 하루도 고생한 42에게',
+        songs: [
+          { title: '괜찮아도 괜찮아', artist: '도경수' },
+          { title: '돌고돌아', artist: '세븐틴' },
+          { title: '그대가 오면', artist: '승관' },
+          { title: 'Try Again', artist: '디어, 재현' },
+          { title: 'To. X', artist: '태연' },
+          { title: 'Number One Rockstar', artist: '다영', lengthType: 'snippet' },
+          { title: 'Officially Missing You', artist: 'Tamia' },
+          { title: '놀이공원', artist: '백현' },
+          { title: '청춘찬가', artist: '세븐틴', lengthType: 'snippet' },
+          { title: 'Odoriko', artist: 'Vaundy' },
+          { title: '널 생각해', artist: '원모어찬스' },
+          { title: 'SOFA', artist: '크러쉬' },
+          { title: 'Instagram', artist: 'DEAN' }
+        ]
+      },
+      {
+        date: '2025-10-29',
+        source: '251029 위버스라이브 작두즈',
+        songs: [
+          { title: '니 생각뿐', artist: '브라운 아이드 소울', note: 'with 지훈' },
+          { title: '바라봐줘요', artist: '죠지' },
+          { title: '놓아줘', artist: '크러쉬' },
+          { title: 'Always', artist: 'Daniel Caesar' },
+          { title: 'Astronomy', artist: 'Conan Gray' },
+          { title: '잘 지내자, 우리', artist: '최유리', lengthType: 'snippet' },
+          { title: 'Until I Found You', artist: 'Stephen Sanchez' },
+          { title: 'Lonely', artist: '2NE1' },
+          { title: '아틀란티스 소녀', artist: '보아', lengthType: 'snippet' },
+          { title: 'Love', artist: 'DEAN', note: 'with 지훈' },
+          { title: '눈, 코, 입', artist: '태양', note: 'with 지훈, 경민' },
+          { title: '11:11', artist: '태연' },
+          { title: '그대라는 시', artist: '태연', note: 'with 지훈, 경민' }
+        ]
+      },
+      {
+        date: '2025-10-24',
+        source: '251024 더시즌즈',
+        songs: [
+          { title: '폰서트', artist: '10CM', note: 'with 경민' }
+        ]
+      },
+      {
+        date: '2025-09-07',
+        source: '250907 위버스라이브 여기 맞아요 들어오시면 됩니다☺️☺️',
+        songs: [
+          { title: 'Try Again', artist: '디어, 재현', lengthType: 'snippet' },
+          { title: '기억을 걷는 시간', artist: '넬', lengthType: 'snippet' },
+          { title: '사랑은 여섯줄', artist: '10CM', lengthType: 'snippet' },
+          { title: '누난 너무 예뻐', artist: '샤이니', lengthType: 'snippet' },
+          { title: 'HAPPY', artist: '데이식스', lengthType: 'snippet' },
+          { title: '와르르♥', artist: 'Colde' },
+          { title: 'Lemonade', artist: 'Jeremy Passion' },
+          { title: 'N.O.S.A', artist: '투어스', lengthType: 'snippet' },
+          { title: 'GO!', artist: '코르티스', lengthType: 'snippet' },
+          { title: 'Golden', artist: 'HUNTER/X', lengthType: 'snippet' },
+          { title: 'Love Again', artist: '백현', lengthType: 'snippet' },
+          { title: '겨우', artist: '세븐틴', lengthType: 'snippet' },
+          { title: 'Lifetime', artist: 'Justin Bieber' },
+          { title: 'Amazing Kiss', artist: '보아', lengthType: 'snippet' },
+          { title: 'Butterfly', artist: '방탄소년단', lengthType: 'snippet' },
+          { title: 'No Make Up', artist: '자이언티', lengthType: 'snippet' },
+          { title: '캠프파이어', artist: '세븐틴', lengthType: 'snippet' },
+          { title: 'Still With You', artist: '정국' },
+          { title: 'You and I', artist: '박봄', lengthType: 'snippet' },
+          { title: 'うるうびと (남은 인생 10년 OST)', artist: 'RADWIMPS' },
+          { title: '걘 아니야 Pt.2', artist: '페노메코', lengthType: 'snippet' },
+          { title: '걘 아니야 Pt.1', artist: '지코', lengthType: 'snippet' },
+          { title: 'Love', artist: 'DEAN' },
+          { title: 'Love', artist: 'Keyshia Cole', lengthType: 'snippet' },
+          { title: '하지마', artist: '릴러말즈', lengthType: 'snippet' },
+          { title: 'What 2 Do', artist: 'DEAN' },
+          { title: 'FAMOUS', artist: '올데이프로젝트', lengthType: 'snippet' },
+          { title: 'Until I Found You', artist: 'Stephen Sanchez' },
+          { title: '7시에 들어줘', artist: '세븐틴' },
+          { title: '아이와 나의 바다', artist: '아이유', lengthType: 'snippet' },
+          { title: '몰랐어', artist: '엔하이픈' },
+          { title: '니 생각뿐', artist: '영준' },
+          { title: 'Face to Face', artist: 'Ruel' },
+          { title: "When You're Gone", artist: 'Shawn Mendes' },
+          { title: 'Astronomy', artist: 'Conan Gray' }
+        ]
+      },
+      {
+        date: '2025-09-01',
+        source: '250901 위버스포스트',
+        songs: [
+          { title: '봄 내음보다 너를', artist: '김나영' }
+        ]
+      },
+      {
+        date: '2025-08-24',
+        source: '250824 보컬챌린지',
+        songs: [
+          { title: '사랑은 여섯줄', artist: '10CM' }
+        ]
+      },
+      {
+        date: '2025-07-19',
+        source: '250719 TWSTUDIO',
+        songs: [
+          { title: 'A Thousand Years', artist: 'Christina Perri' }
+        ]
+      },
+      {
+        date: '2025-04-25',
+        source: '250425 더시즌즈',
+        songs: [
+          { title: '내 사랑 내 곁에', artist: '홍이삭' }
+        ]
+      },
+      {
+        date: '2025-04-22',
+        source: '250422 리무진서비스',
+        songs: [
+          { title: '마음 따라 뛰는 건 멋지지 않아?', artist: '투어스' },
+          { title: 'Thirsty', artist: '에스파' },
+          { title: '사계', artist: '태연' },
+          { title: 'Checklist', artist: 'MAX' },
+          { title: 'No Make Up', artist: '자이언티' },
+          { title: 'Chewing Gum', artist: 'NCT DREAM' }
+        ]
+      },
+      {
+        date: '2025-02-25',
+        source: '250225 위버스포스트',
+        songs: [
+          { title: 'Try Again', artist: '디어, 재현' }
+        ]
+      },
+      {
+        date: '2025-01-15',
+        source: '250115 위버스라이브 일상 속 고요함을 찾아서 / 수요일이 좋다! 영자이의 디너라디오',
+        songs: [
+          { title: '첫 눈', artist: 'EXO', lengthType: 'snippet' },
+          { title: 'To. X', artist: '태연', lengthType: 'snippet' },
+          { title: '에피소드', artist: '이무진', lengthType: 'snippet' },
+          { title: '左右盲', artist: 'Yorushika', lengthType: 'snippet' },
+          { title: 'Here With Me', artist: 'd4vd', lengthType: 'snippet' },
+          { title: 'Always', artist: 'Daniel Caesar', lengthType: 'full' },
+          { title: '晩餐歌', artist: 'tuki.', lengthType: 'snippet' },
+          { title: '오늘만 I LOVE YOU', artist: 'BOYNEXTDOOR', lengthType: 'snippet' },
+          { title: '모든 날, 모든 순간', artist: '폴킴', lengthType: 'full' },
+          { title: 'Chewing Gum', artist: 'NCT DREAM', lengthType: 'snippet' },
+          { title: 'Checklist', artist: 'MAX', lengthType: 'snippet' },
+          { title: 'Double Take', artist: 'TWS', lengthType: 'snippet' },
+          { title: '3D', artist: '정국', lengthType: 'snippet' },
+          { title: 'Uptown Girl', artist: 'Westlife', lengthType: 'snippet' },
+          { title: '21', artist: 'DEAN', lengthType: 'full' },
+          { title: 'Love Wins All', artist: '아이유', lengthType: 'snippet' },
+          { title: 'Polaroid Love', artist: 'ENHYPEN', lengthType: 'snippet' },
+          { title: '마지막 축제', artist: 'TWS', lengthType: 'snippet' },
+          { title: 'Boat', artist: '죠지', lengthType: 'snippet' },
+          { title: '폰서트', artist: '10CM', lengthType: 'snippet' },
+          { title: 'Steady', artist: 'NCT WISH', lengthType: 'snippet' },
+          { title: '점 대신 쉼표를 그려', artist: 'TWS', lengthType: 'snippet' },
+          { title: 'Butterfly', artist: '방탄소년단', lengthType: 'snippet' },
+          { title: '네모네모', artist: '예나', lengthType: 'snippet' },
+          { title: '마음대로', artist: 'Colde', lengthType: 'snippet' },
+          { title: 'SPOT!', artist: '지코', lengthType: 'snippet' },
+          { title: '응급실', artist: 'izi', lengthType: 'snippet' },
+          { title: '너는 나의 봄이다', artist: '성시경', lengthType: 'full' }
+        ]
+      },
+      {
+        date: '2024-10-24',
+        source: '241024 TWSTUDIO',
+        songs: [
+          { title: '左右盲', artist: 'Yorushika' }
+        ]
+      },
+      {
+        date: '2024-08-30',
+        source: '240830 위버스라이브 수박박🍉먹방!',
+        songs: [
+          { title: "Nothing's Gonna Change My Love for You", artist: 'George Benson' },
+          { title: '晩餐歌 (만찬가)', artist: 'tuki.' },
+          { title: '그대라는 시', artist: '태연', lengthType: 'snippet' },
+          { title: '괜찮아도 괜찮아', artist: '도경수' }
+        ]
+      },
+      {
+        date: '2024-08-10',
+        source: '240810 TWSTUDIO',
+        songs: [
+          { title: '晩餐歌 (만찬가)', artist: 'tuki.' }
+        ]
+      },
+      {
+        date: '2024-01-22',
+        source: '240122 데뷔쇼케이스',
+        songs: [
+          { title: "Nothing's Gonna Change My Love for You", artist: 'George Benson', lengthType: 'snippet' }
+        ]
+      }
+    ];
+
+    // ==========================================
+    // 2. 정규화 및 초기 데이터 빌드 유틸리티
+    // ==========================================
+    function normalizeSongKey(title, artist = '') {
+      const t = (title || '').trim().toLowerCase().replace(/\s+/g, '');
+      const a = (artist || '').trim().toLowerCase().replace(/\s+/g, '');
+
+      // 동명이곡 분리 처리
+      if (t === '만찬가' || t === '晩餐歌' || t.includes('晩餐歌') || t.includes('bansanka')) {
+        if (a.includes('태연') || a.includes('taeyeon')) {
+          return 'song_manchanga_taeyeon';
+        }
+        return 'song_bansanka_tuki';
+      }
+      if (t === '그럴때마다') {
+        if (a.includes('토이') || a.includes('toy')) {
+          return 'song_geureolttaemada_toy';
+        }
+        return 'song_geureolttaemada_baekyerin';
+      }
+      if (t === 'love(dean)' || (t === 'love' && a.includes('dean'))) return 'song_love_dean';
+      if (t === 'love(keyshiacole)' || (t === 'love' && a.includes('keyshia'))) return 'song_love_keyshiacole';
+      if (t === '캔디') {
+        if (a.includes('hot')) return 'song_candy_hot';
+        return 'song_candy_nctdream';
+      }
+
+      // 동일 곡 병합 매칭
+      if (t === '드림' || t === 'dream') return 'song_dream_baekhyun_suzy';
+      if (t === '좌우맹' || t === '左右盲') return 'song_sayuumou';
+      if (t === '한번더안녕' || t === '한번더,안녕') return 'song_hanbeondeoannyeong';
+      if (t === 'athousandyears') return 'song_athousandyears';
+      if (t === 'checklist' || t === 'checklist(feat.chromeo)') return 'song_checklist';
+      if (t === 'nomakeup') return 'song_nomakeup';
+      if (t === 'chewinggum') return 'song_chewinggum';
+      if (t === 'tryagain') return 'song_tryagain';
+      if (t === 'loveagain') return 'song_loveagain';
+      if (t === 'stillwithyou' || t === 'stillwithu') return 'song_stillwithyou';
+      if (t === 'amazingkiss') return 'song_amazingkiss';
+      if (t === 'lifetime') return 'song_lifetime';
+      if (t === 'astronomy') return 'song_astronomy';
+      if (t === 'instagram') return 'song_instagram';
+      if (t === 'always') return 'song_always';
+      if (t === '폰서트') return 'song_phonecert';
+      if (t === 'to.x' || t === 'tox') return 'song_tox';
+      if (t === '심야영화' || t === '심야영화(nowplaying)') return 'song_simyayeonghwa';
+      if (t === '그긴밤을지나온너에게') return 'song_geuginbam';
+      if (t === '와르르' || t === '와르르♥') return 'song_wareureu';
+      if (t === '니생각뿐') return 'song_nisaenggakppun';
+      if (t === '몰랐어' || t === '물랐어') return 'song_mollasseo';
+      if (t === '눈코입' || t === '눈,코,입' || t === '눈코입(❤️)') return 'song_nunkoip';
+      if (t === 'あいのちから(poweroflove)' || t === 'あいのちから') return 'song_ainochikara';
+      if (t === '明日も(ashitamo)' || t === 'あいことばあ시타모' || t === 'あいことば아시타모') return 'song_ashitamo';
+      if (t === '11:11') return 'song_1111';
+      if (t.includes('수련애정') || t.includes('修煉愛情') || t.includes('修炼爱情')) return 'song_suryeonaejeong';
+
+      return 'song_' + t.replace(/[^a-z0-9가-힣ぁ-んァ-ヶ一-龥]/g, '');
+    }
+
+    function formatShortDate(dateStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      return `${parts[0].slice(2)}${parts[1]}${parts[2]}`;
+    }
+
+    function getExpectedMp3Filename(dateStr, title) {
+      const shortDate = formatShortDate(dateStr);
+      const safeTitle = (title || '').trim().replace(/[\\/:*?"<>|]/g, '');
+      return `${shortDate}_${safeTitle}.mp3`;
+    }
+
+    function buildInitialDataset() {
+      const songMap = new Map();
+      let globalOrder = 1;
+
+      RAW_SESSIONS.forEach((session) => {
+        session.songs.forEach((entry) => {
+          const key = normalizeSongKey(entry.title, entry.artist || '');
+          const lengthType = entry.lengthType === 'snippet' ? 'snippet' : 'full';
+          const verId = `${session.date}_${key}_${globalOrder}`;
+
+          const versionObj = {
+            id: verId,
+            date: session.date,
+            source: session.source,
+            note: entry.note || '',
+            lengthType,
+            orderIndex: globalOrder++,
+            mp3FileName: getExpectedMp3Filename(session.date, entry.title)
+          };
+
+          if (!songMap.has(key)) {
+            songMap.set(key, {
+              key,
+              title: entry.title,
+              artist: entry.artist || '',
+              firstOrderIndex: versionObj.orderIndex,
+              versions: [versionObj]
+            });
+          } else {
+            const existing = songMap.get(key);
+            if (!existing.artist && entry.artist) {
+              existing.artist = entry.artist;
+            }
+            existing.versions.push(versionObj);
+          }
+        });
+      });
+
+      return Array.from(songMap.values());
+    }
+
+    const INITIAL_DATASET = buildInitialDataset();
+    const DATASET_VERSION = 'v2026_11_26_full_archive_v44';
+    const DEFAULT_ARTIST_BY_KEY = new Map(
+      INITIAL_DATASET.filter(s => s.artist).map(s => [s.key, s.artist])
+    );
+
+    // ==========================================
+    // 3. 상태 관리 및 스토리지 (LocalStorage + IndexedDB)
+    // ==========================================
+    let archiveData = [];
+    let sessionLinks = {};
+    let currentTab = 'songs';
+    let searchQuery = '';
+    let quickFilter = 'all'; // 'all' | 'full' | 'snippet' | 'repeat' | 'mp3'
+    let dateFilter = 'all';
+    let sortBy = 'order';
+    let activeSongKey = null;
+    let pendingUploadTarget = null;
+    let editingSessionLinkKey = null;
+    let isAdminMode = false;
+    let adminTapCount = 0;
+    let adminTapTimer = null;
+
+    // MP3 상태 맵: verId -> { url, name, isStatic }
+    const mp3Registry = new Map();
+    const audioEl = new Audio();
+    let currentPlayingVerId = null;
+
+    const DB_NAME = 'YoungjaeCoverArchiveDB';
+    const STORE_NAME = 'mp3Blobs';
+
+    function openDb() {
+      return new Promise((resolve, reject) => {
+        try {
+          const req = indexedDB.open(DB_NAME, 1);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+              db.createObjectStore(STORE_NAME, { keyPath: 'verId' });
+            }
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    async function saveMp3Blob(verId, file) {
+      try {
+        const db = await openDb();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).put({ verId, name: file.name, blob: file });
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch (e) {
+        console.warn('IndexedDB 저장 실패:', e);
+      }
+    }
+
+    async function deleteMp3Blob(verId) {
+      try {
+        const db = await openDb();
+        return new Promise((resolve) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).delete(verId);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        });
+      } catch (e) {
+        console.warn('IndexedDB 삭제 실패:', e);
+      }
+    }
+
+    async function loadAllSavedMp3Blobs() {
+      try {
+        const db = await openDb();
+        return new Promise((resolve) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const req = tx.objectStore(STORE_NAME).getAll();
+          req.onsuccess = () => {
+            const items = req.result || [];
+            items.forEach((item) => {
+              if (item && item.blob) {
+                const url = URL.createObjectURL(item.blob);
+                mp3Registry.set(item.verId, {
+                  url,
+                  name: item.name || 'uploaded.mp3',
+                  isStatic: false
+                });
+              }
+            });
+            resolve();
+          };
+          req.onerror = () => resolve();
+        });
+      } catch (e) {
+        console.warn('IndexedDB 로드 실패:', e);
+      }
+    }
+
+    // 배포 시 mp3/ 폴더 내 파일 자동 감지
+    async function probeStaticMp3Files() {
+      if (window.location.protocol === 'file:') return;
+      const checks = [];
+
+      archiveData.forEach((song) => {
+        song.versions.forEach((ver) => {
+          if (mp3Registry.has(ver.id)) return;
+          const fileName = ver.mp3FileName || getExpectedMp3Filename(ver.date, song.title);
+          const candidateUrl = `mp3/${encodeURIComponent(fileName)}`;
+
+          checks.push(
+            fetch(candidateUrl, { method: 'HEAD' })
+              .then((res) => {
+                if (res.ok) {
+                  mp3Registry.set(ver.id, {
+                    url: candidateUrl,
+                    name: fileName,
+                    isStatic: true
+                  });
+                }
+              })
+              .catch(() => {})
+          );
+        });
+      });
+
+      if (checks.length > 0) {
+        await Promise.all(checks);
+        updateStatsAndFilters();
+        renderCurrentView();
+      }
+    }
+
+    function loadArchiveFromStorage() {
+      try {
+        const savedVer = localStorage.getItem('yj_archive_version');
+        const savedRaw = localStorage.getItem('yj_archive_data');
+        if (savedVer === DATASET_VERSION && savedRaw) {
+          const parsed = JSON.parse(savedRaw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            archiveData = parsed.map((song) => {
+              if (!song.artist && DEFAULT_ARTIST_BY_KEY.has(song.key)) {
+                song.artist = DEFAULT_ARTIST_BY_KEY.get(song.key);
+              }
+              return song;
+            });
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('로컬 스토리지 파싱 오류, 기본 데이터 사용:', e);
+      }
+      archiveData = JSON.parse(JSON.stringify(INITIAL_DATASET));
+      saveArchiveToStorage();
+    }
+
+    function loadSessionLinksFromStorage() {
+      try {
+        localStorage.removeItem('yj_session_links');
+      } catch (e) {}
+      sessionLinks = {};
+    }
+
+    function saveSessionLinksToStorage() {
+      try {
+        localStorage.setItem('yj_session_links', JSON.stringify(sessionLinks));
+      } catch (e) {
+        console.warn('방송 링크 저장 실패:', e);
+      }
+    }
+
+    function getSessionLink(date, source) {
+      const key = `${date}__${source}`;
+      return (sessionLinks[key] || '').trim();
+    }
+
+    function initAdminMode() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === '1' || localStorage.getItem('yj_admin_mode') === 'true') {
+        isAdminMode = true;
+      }
+      applyAdminModeUI();
+    }
+
+    function handleSecretAdminTap() {
+      if (isAdminMode) return;
+      adminTapCount++;
+      clearTimeout(adminTapTimer);
+      adminTapTimer = setTimeout(() => {
+        adminTapCount = 0;
+      }, 1800);
+      if (adminTapCount >= 5) {
+        adminTapCount = 0;
+        isAdminMode = true;
+        localStorage.setItem('yj_admin_mode', 'true');
+        applyAdminModeUI();
+        renderCurrentView();
+        showToast('관리자 편집 모드가 활성화되었습니다.', 'success');
+      }
+    }
+
+    function disableAdminMode() {
+      isAdminMode = false;
+      localStorage.removeItem('yj_admin_mode');
+      applyAdminModeUI();
+      renderCurrentView();
+      showToast('편집 버튼이 숨겨졌습니다.', 'info');
+    }
+
+    function applyAdminModeUI() {
+      const toolbar = document.getElementById('adminToolbar');
+      const modalArtistRow = document.getElementById('modalArtistEditRow');
+      const modalArtistReadonly = document.getElementById('modalArtistReadonly');
+      const modalAddVerBtn = document.getElementById('modalAddVersionBtn');
+
+      if (isAdminMode) {
+        toolbar.classList.remove('hidden');
+        toolbar.classList.add('flex');
+        if (modalArtistRow) {
+          modalArtistRow.classList.remove('hidden');
+          modalArtistRow.classList.add('flex');
+        }
+        if (modalArtistReadonly) modalArtistReadonly.classList.add('hidden');
+        if (modalAddVerBtn) modalAddVerBtn.classList.remove('hidden');
+      } else {
+        toolbar.classList.add('hidden');
+        toolbar.classList.remove('flex');
+        if (modalArtistRow) {
+          modalArtistRow.classList.add('hidden');
+          modalArtistRow.classList.remove('flex');
+        }
+        if (modalArtistReadonly) modalArtistReadonly.classList.remove('hidden');
+        if (modalAddVerBtn) modalAddVerBtn.classList.add('hidden');
+      }
+    }
+
+    function saveArchiveToStorage() {
+      try {
+        localStorage.setItem('yj_archive_version', DATASET_VERSION);
+        localStorage.setItem('yj_archive_data', JSON.stringify(archiveData));
+      } catch (e) {
+        console.warn('로컬 스토리지 저장 실패:', e);
+      }
+    }
+
+    // ==========================================
+    // 4. 통계 및 상단 UI 업데이트
+    // ==========================================
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const el = document.createElement('div');
+      const colorClass =
+        type === 'success'
+          ? 'bg-emerald-600 text-white'
+          : type === 'error'
+          ? 'bg-rose-600 text-white'
+          : 'bg-slate-900 text-white';
+      el.className = `${colorClass} px-4 py-2.5 rounded-xl shadow-lg text-xs font-bold transition-all duration-300 transform translate-y-0 opacity-100`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => el.remove(), 300);
+      }, 2600);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function updateStatsAndFilters() {
+      const uniqueSongs = archiveData.length;
+      let totalPerfs = 0;
+      const uniqueDates = new Set();
+      const sessionOptions = new Map();
+      let repeatSongs = 0;
+
+      archiveData.forEach((song) => {
+        if (song.versions.length >= 2) repeatSongs++;
+        song.versions.forEach((v) => {
+          totalPerfs++;
+          uniqueDates.add(v.date);
+          const sessionKey = `${v.date}__${v.source}`;
+          if (!sessionOptions.has(sessionKey)) {
+            sessionOptions.set(sessionKey, {
+              key: sessionKey,
+              date: v.date,
+              source: v.source
+            });
+          }
+        });
+      });
+
+      document.getElementById('statUniqueSongs').textContent = `${uniqueSongs}곡`;
+      document.getElementById('statTotalPerfs').textContent = `${totalPerfs}회`;
+      document.getElementById('statDatesCount').textContent = `총 ${uniqueDates.size}일 · ${sessionOptions.size}개 방송/콘텐츠`;
+      document.getElementById('statRepeatSongs').textContent = `${repeatSongs}곡`;
+      document.getElementById('statMp3Count').textContent = `${mp3Registry.size}개`;
+
+      // 날짜 필터 셀렉트 갱신
+      const dateSelect = document.getElementById('dateFilterSelect');
+      const prevVal = dateSelect.value;
+      const sortedSessions = Array.from(sessionOptions.values()).sort((a, b) =>
+        b.date.localeCompare(a.date)
+      );
+      dateSelect.innerHTML =
+        `<option value="all">모든 날짜 / 방송 (${sortedSessions.length})</option>` +
+        sortedSessions
+          .map(
+            (s) =>
+              `<option value="${escapeHtml(s.key)}">${escapeHtml(s.source)}</option>`
+          )
+          .join('');
+      if (Array.from(dateSelect.options).some((o) => o.value === prevVal)) {
+        dateSelect.value = prevVal;
+      }
+
+      // 대표 다회 가창곡 하이라이트 렌더링
+      const topRepeats = [...archiveData]
+        .filter((s) => s.versions.length >= 2)
+        .sort((a, b) => b.versions.length - a.versions.length || a.firstOrderIndex - b.firstOrderIndex)
+        .slice(0, 14);
+
+      const hlContainer = document.getElementById('repeatHighlights');
+      if (topRepeats.length === 0) {
+        hlContainer.innerHTML = `<span class="text-xs text-slate-400">다회 가창곡이 없습니다.</span>`;
+      } else {
+        hlContainer.innerHTML = topRepeats
+          .map(
+            (s) => `
+            <button onclick="openDetailModal('${escapeHtml(s.key)}')" class="shrink-0 px-3.5 py-2 bg-white hover:bg-emerald-50 border border-emerald-200/80 rounded-xl shadow-2xs transition text-left flex items-center gap-2 cursor-pointer">
+              <div>
+                <div class="text-xs font-bold text-slate-800">${escapeHtml(s.title)}</div>
+                <div class="text-[10px] text-slate-400">${escapeHtml(s.artist || '원곡자 미상')}</div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700">${s.versions.length}회</span>
+            </button>
+          `
+          )
+          .join('');
+      }
+    }
+
+    // ==========================================
+    // 5. 필터링 및 뷰 렌더링
+    // ==========================================
+    function switchTab(tab) {
+      currentTab = tab;
+      const tabSongsBtn = document.getElementById('tabSongs');
+      const tabTimelineBtn = document.getElementById('tabTimeline');
+      if (tab === 'songs') {
+        tabSongsBtn.className = 'px-4 py-2 text-xs sm:text-sm font-bold rounded-lg bg-white text-emerald-600 shadow-xs transition cursor-pointer';
+        tabTimelineBtn.className = 'px-4 py-2 text-xs sm:text-sm font-bold rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer';
+      } else {
+        tabTimelineBtn.className = 'px-4 py-2 text-xs sm:text-sm font-bold rounded-lg bg-white text-emerald-600 shadow-xs transition cursor-pointer';
+        tabSongsBtn.className = 'px-4 py-2 text-xs sm:text-sm font-bold rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer';
+      }
+      renderCurrentView();
+    }
+
+    function handleSearch(val) {
+      searchQuery = (val || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (searchQuery) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderCurrentView();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      handleSearch('');
+    }
+
+    function setQuickFilter(qf) {
+      quickFilter = qf;
+      ['all', 'full', 'snippet', 'repeat', 'mp3'].forEach((id) => {
+        const btn = document.getElementById(`qf-${id}`);
+        if (!btn) return;
+        if (id === qf) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-800 text-white transition cursor-pointer';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer';
+        }
+      });
+      renderCurrentView();
+    }
+
+    function setDateFilter(val) {
+      dateFilter = val;
+      renderCurrentView();
+    }
+
+    function setSortBy(val) {
+      sortBy = val;
+      renderCurrentView();
+    }
+
+    function matchesFilters(song, version) {
+      // 빠른 필터 검사
+      if (quickFilter === 'full' && version.lengthType === 'snippet') return false;
+      if (quickFilter === 'snippet' && version.lengthType !== 'snippet') return false;
+      if (quickFilter === 'repeat' && song.versions.length < 2) return false;
+      if (quickFilter === 'mp3' && !mp3Registry.has(version.id)) return false;
+
+      // 날짜/방송 필터 검사
+      if (dateFilter !== 'all') {
+        const sessionKey = `${version.date}__${version.source}`;
+        if (sessionKey !== dateFilter) return false;
+      }
+
+      // 검색어 검사
+      if (searchQuery) {
+        const hay = `${song.title} ${song.artist || ''} ${version.date} ${formatShortDate(version.date)} ${version.source} ${version.note || ''}`.toLowerCase();
+        if (!hay.includes(searchQuery)) return false;
+      }
+
+      return true;
+    }
+
+    function renderCurrentView() {
+      if (currentTab === 'songs') {
+        renderSongsGrid();
+      } else {
+        renderTimelineView();
+      }
+    }
+
+    function renderSongsGrid() {
+      const container = document.getElementById('contentArea');
+      const filteredSongs = [];
+
+      archiveData.forEach((song) => {
+        const matchedVersions = song.versions.filter((v) => matchesFilters(song, v));
+        if (matchedVersions.length > 0) {
+          filteredSongs.push({
+            ...song,
+            matchedVersions
+          });
+        }
+      });
+
+      // 정렬
+      filteredSongs.sort((a, b) => {
+        if (sortBy === 'order') {
+          return (a.firstOrderIndex || 0) - (b.firstOrderIndex || 0);
+        }
+        if (sortBy === 'count') {
+          return b.versions.length - a.versions.length || (a.firstOrderIndex || 0) - (b.firstOrderIndex || 0);
+        }
+        if (sortBy === 'recent') {
+          const latestA = a.versions.map((v) => v.date).sort().pop() || '';
+          const latestB = b.versions.map((v) => v.date).sort().pop() || '';
+          return latestB.localeCompare(latestA);
+        }
+        if (sortBy === 'alpha') {
+          return a.title.localeCompare(b.title, 'ko');
+        }
+        if (sortBy === 'mp3') {
+          const mp3A = a.versions.filter((v) => mp3Registry.has(v.id)).length;
+          const mp3B = b.versions.filter((v) => mp3Registry.has(v.id)).length;
+          return mp3B - mp3A || b.versions.length - a.versions.length;
+        }
+        return 0;
+      });
+
+      if (filteredSongs.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-3xl p-12 text-center border border-slate-200/80">
+            <div class="text-3xl mb-2">🔍</div>
+            <h3 class="text-base font-bold text-slate-800">조건에 맞는 커버곡이 없습니다</h3>
+            <p class="text-xs text-slate-500 mt-1">검색어나 필터 조건을 변경해 보세요.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${filteredSongs
+            .map((song) => {
+              const hasAnyMp3 = song.matchedVersions.some((v) => mp3Registry.has(v.id));
+              const isRepeat = song.versions.length >= 2;
+              const sortedVersions = [...song.matchedVersions].sort(
+                (a, b) => (a.orderIndex || 0) - (b.orderIndex || 0)
+              );
+
+              return `
+                <article class="bg-white rounded-2xl p-4 sm:p-5 border ${
+                  isRepeat ? 'border-emerald-200/90' : 'border-slate-200/80'
+                } shadow-2xs hover:shadow-md transition flex flex-col justify-between gap-4">
+                  <div>
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                      <div class="flex flex-wrap items-center gap-1.5">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold ${
+                          isRepeat
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : 'bg-slate-100 text-slate-600'
+                        }">
+                          ${song.versions.length}회 가창
+                        </span>
+                        ${
+                          hasAnyMp3
+                            ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/70">🎧 MP3</span>`
+                            : ''
+                        }
+                      </div>
+                      <button onclick="openDetailModal('${escapeHtml(song.key)}')" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 shrink-0 cursor-pointer">
+                        상세 · 비교 →
+                      </button>
+                    </div>
+
+                    <h3 onclick="openDetailModal('${escapeHtml(song.key)}')" class="text-base sm:text-lg font-extrabold text-slate-900 hover:text-emerald-600 transition cursor-pointer leading-snug">
+                      ${escapeHtml(song.title)}
+                    </h3>
+                    <p class="text-xs font-medium text-slate-500 mt-0.5">
+                      ${song.artist ? `Original by <span class="font-semibold text-slate-700">${escapeHtml(song.artist)}</span>` : '<span class="text-slate-400">원곡자 미입력</span>'}
+                    </p>
+                  </div>
+
+                  <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                    ${sortedVersions
+                      .map((ver) => {
+                        const mp3 = mp3Registry.get(ver.id);
+                        const isPlaying = currentPlayingVerId === ver.id && !audioEl.paused;
+                        const isSnippet = ver.lengthType === 'snippet';
+                        const sLink = getSessionLink(ver.date, ver.source);
+
+                        return `
+                          <div class="flex items-center justify-between gap-2 p-2 rounded-xl bg-slate-50/90 hover:bg-slate-100/80 transition">
+                            <div class="min-w-0 flex-1">
+                              <div class="flex items-center gap-1.5 flex-wrap">
+                                ${
+                                  sLink
+                                    ? `<a href="${escapeHtml(sLink)}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-slate-800 hover:text-emerald-600 underline decoration-emerald-400/70 underline-offset-2 truncate inline-flex items-center gap-1" title="원본 방송 보기">
+                                        <span>${escapeHtml(ver.source)}</span>
+                                        <span class="text-[10px] text-emerald-600 shrink-0">🔗</span>
+                                      </a>`
+                                    : `<span class="text-xs font-bold text-slate-800 truncate">${escapeHtml(ver.source)}</span>`
+                                }
+                                ${
+                                  isSnippet
+                                    ? `<span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100/90 text-amber-800">한 소절</span>`
+                                    : `<span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700">1절+</span>`
+                                }
+                              </div>
+                              ${
+                                ver.note
+                                  ? `<div class="text-[11px] text-emerald-600 font-semibold truncate mt-0.5">📝 ${escapeHtml(ver.note)}</div>`
+                                  : ''
+                              }
+                            </div>
+
+                            <div class="shrink-0">
+                              ${
+                                mp3
+                                  ? `<button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${
+                                      isPlaying
+                                        ? 'bg-teal-600 text-white'
+                                        : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                                    } transition cursor-pointer">
+                                      ${isPlaying ? '⏸ 일시정지' : '▶ 재생'}
+                                    </button>`
+                                  : isAdminMode
+                                  ? `<button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-500 hover:text-emerald-600 hover:border-emerald-300 transition cursor-pointer" title="예상 파일명: ${escapeHtml(ver.mp3FileName || '')}">
+                                      + MP3
+                                    </button>`
+                                  : ''
+                              }
+                            </div>
+                          </div>
+                        `;
+                      })
+                      .join('')}
+                  </div>
+                </article>
+              `;
+            })
+            .join('')}
+        </div>
+      `;
+    }
+
+    function renderTimelineView() {
+      const container = document.getElementById('contentArea');
+      const sessionMap = new Map();
+
+      archiveData.forEach((song) => {
+        song.versions.forEach((ver) => {
+          if (!matchesFilters(song, ver)) return;
+          const sessionKey = `${ver.date}__${ver.source}`;
+          if (!sessionMap.has(sessionKey)) {
+            sessionMap.set(sessionKey, {
+              key: sessionKey,
+              date: ver.date,
+              source: ver.source,
+              items: []
+            });
+          }
+          sessionMap.get(sessionKey).items.push({ song, ver });
+        });
+      });
+
+      const sessions = Array.from(sessionMap.values()).sort((a, b) =>
+        b.date.localeCompare(a.date)
+      );
+
+      if (sessions.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-3xl p-12 text-center border border-slate-200/80">
+            <div class="text-3xl mb-2">📅</div>
+            <h3 class="text-base font-bold text-slate-800">표시할 타임라인 기록이 없습니다</h3>
+            <p class="text-xs text-slate-500 mt-1">검색어나 필터 조건을 초기화해 보세요.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="space-y-4">
+          ${sessions
+            .map((session) => {
+              const orderedItems = [...session.items].sort(
+                (a, b) => (a.ver.orderIndex || 0) - (b.ver.orderIndex || 0)
+              );
+              const sLink = getSessionLink(session.date, session.source);
+
+              return `
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs">
+                  <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+                    <div>
+                      <span class="text-xs font-bold text-emerald-600">${escapeHtml(session.date)}</span>
+                      <div class="flex items-center gap-2 flex-wrap">
+                        ${
+                          sLink
+                            ? `<a href="${escapeHtml(sLink)}" target="_blank" rel="noopener noreferrer" class="text-base sm:text-lg font-extrabold text-slate-900 hover:text-emerald-600 underline decoration-emerald-400 underline-offset-4 inline-flex items-center gap-1.5 transition" title="원본 방송 보러가기">
+                                <span>${escapeHtml(session.source)}</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">🔗 다시보기</span>
+                              </a>`
+                            : `<h3 class="text-base sm:text-lg font-extrabold text-slate-900">${escapeHtml(session.source)}</h3>`
+                        }
+                        ${
+                          isAdminMode
+                            ? `<button onclick="openSessionLinkModal('${escapeHtml(session.date)}', '${escapeHtml(session.source)}')" class="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 hover:bg-emerald-100 text-slate-600 hover:text-emerald-700 transition cursor-pointer">
+                                ${sLink ? '🔗 링크 수정' : '+ 방송 링크'}
+                              </button>`
+                            : ''
+                        }
+                      </div>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-700">
+                      총 ${orderedItems.length}곡
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                    ${orderedItems
+                      .map(({ song, ver }, idx) => {
+                        const mp3 = mp3Registry.get(ver.id);
+                        const isPlaying = currentPlayingVerId === ver.id && !audioEl.paused;
+                        const isSnippet = ver.lengthType === 'snippet';
+
+                        return `
+                          <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/60 transition">
+                            <div onclick="openDetailModal('${escapeHtml(song.key)}')" class="min-w-0 flex-1 cursor-pointer">
+                              <div class="flex items-center gap-1.5">
+                                <span class="text-[11px] font-mono font-bold text-slate-400">${idx + 1}.</span>
+                                <span class="text-xs sm:text-sm font-bold text-slate-900 truncate">${escapeHtml(song.title)}</span>
+                                ${
+                                  isSnippet
+                                    ? `<span class="shrink-0 px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100 text-amber-800">한 소절</span>`
+                                    : ''
+                                }
+                              </div>
+                              <div class="text-[11px] text-slate-500 truncate pl-4">
+                                ${escapeHtml(song.artist || '원곡자 미상')}
+                                ${ver.note ? ` · <span class="text-emerald-600 font-semibold">${escapeHtml(ver.note)}</span>` : ''}
+                              </div>
+                            </div>
+
+                            <div class="shrink-0">
+                              ${
+                                mp3
+                                  ? `<button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${
+                                      isPlaying ? 'bg-teal-600 text-white' : 'bg-emerald-600 text-white'
+                                    } cursor-pointer">
+                                      ${isPlaying ? '⏸' : '▶'}
+                                    </button>`
+                                  : isAdminMode
+                                  ? `<button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-400 hover:text-emerald-600 cursor-pointer">
+                                      +MP3
+                                    </button>`
+                                  : ''
+                              }
+                            </div>
+                          </div>
+                        `;
+                      })
+                      .join('')}
+                  </div>
+                </div>
+              `;
+            })
+            .join('')}
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 6. 상세 모달 및 추가/수정/백업 기능
+    // ==========================================
+    function openDetailModal(songKey) {
+      const song = archiveData.find((s) => s.key === songKey);
+      if (!song) return;
+      activeSongKey = songKey;
+
+      const sortedDates = song.versions.map((v) => v.date).sort();
+      document.getElementById('modalCountBadge').textContent = `총 ${song.versions.length}회 가창`;
+      document.getElementById('modalFirstDateBadge').textContent = `최초 가창: ${sortedDates[0] || '-'}`;
+      document.getElementById('modalSongTitle').textContent = song.title;
+      document.getElementById('modalArtistInput').value = song.artist || '';
+      document.getElementById('modalArtistReadonly').textContent = song.artist
+        ? `Original by ${song.artist}`
+        : '원곡자 정보 없음';
+
+      applyAdminModeUI();
+      renderModalVersionsList(song);
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function renderModalVersionsList(song) {
+      const listEl = document.getElementById('modalVersionsList');
+      const versions = [...song.versions].sort((a, b) => b.date.localeCompare(a.date));
+
+      listEl.innerHTML = versions
+        .map((ver) => {
+          const mp3 = mp3Registry.get(ver.id);
+          const isPlaying = currentPlayingVerId === ver.id && !audioEl.paused;
+          const isSnippet = ver.lengthType === 'snippet';
+          const expectedName = ver.mp3FileName || getExpectedMp3Filename(ver.date, song.title);
+          const sLink = getSessionLink(ver.date, ver.source);
+
+          return `
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-extrabold text-emerald-600">${escapeHtml(ver.date)}</span>
+                    ${
+                      isAdminMode
+                        ? `<button onclick="toggleVersionLengthType('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2 py-0.5 rounded-full text-[11px] font-bold cursor-pointer ${
+                            isSnippet
+                              ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                              : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
+                          }" title="클릭하여 1절 이상 / 한 소절 전환">
+                            ${isSnippet ? '✨ 한 소절 (클릭 시 전환)' : '🎵 1절 이상 (클릭 시 전환)'}
+                          </button>`
+                        : `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                            isSnippet ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-700'
+                          }">
+                            ${isSnippet ? '✨ 한 소절' : '🎵 1절 이상'}
+                          </span>`
+                    }
+                  </div>
+                  <div class="flex items-center gap-2 flex-wrap mt-0.5">
+                    ${
+                      sLink
+                        ? `<a href="${escapeHtml(sLink)}" target="_blank" rel="noopener noreferrer" class="text-sm font-extrabold text-slate-900 hover:text-emerald-600 underline decoration-emerald-400 underline-offset-2 inline-flex items-center gap-1">
+                            <span>${escapeHtml(ver.source)}</span>
+                            <span class="text-xs text-emerald-600">🔗</span>
+                          </a>`
+                        : `<div class="text-sm font-extrabold text-slate-900">${escapeHtml(ver.source)}</div>`
+                    }
+                    ${
+                      isAdminMode
+                        ? `<button onclick="openSessionLinkModal('${escapeHtml(ver.date)}', '${escapeHtml(ver.source)}')" class="px-2 py-0.5 rounded text-[10px] font-bold bg-white border border-slate-200 text-slate-500 hover:text-emerald-600 cursor-pointer">
+                            ${sLink ? '링크 수정' : '+ 방송 링크'}
+                          </button>`
+                        : ''
+                    }
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-1.5">
+                  ${
+                    mp3
+                      ? `
+                        <button onclick="playVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${
+                          isPlaying ? 'bg-teal-600 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                        } cursor-pointer">
+                          ${isPlaying ? '⏸ 일시정지' : '▶ 바로 재생'}
+                        </button>
+                        ${
+                          isAdminMode && !mp3.isStatic
+                            ? `<button onclick="removeVersionMp3('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}')" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-rose-500 hover:bg-rose-50 cursor-pointer">삭제</button>`
+                            : ''
+                        }
+                      `
+                      : isAdminMode
+                      ? `
+                        <button onclick="triggerInlineMp3Upload('${escapeHtml(ver.id)}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:border-emerald-400 hover:text-emerald-600 cursor-pointer">
+                          + MP3 업로드
+                        </button>
+                      `
+                      : ''
+                  }
+                </div>
+              </div>
+
+              ${
+                isAdminMode
+                  ? `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-200/60">
+                      <input
+                        type="text"
+                        value="${escapeHtml(ver.note || '')}"
+                        onchange="updateVersionNote('${escapeHtml(song.key)}', '${escapeHtml(ver.id)}', this.value)"
+                        placeholder="메모 입력 (예: with 경민, 무반주 고음)"
+                        class="flex-1 px-2.5 py-1 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-emerald-500"
+                      />
+                      <span class="text-[10px] font-mono text-slate-400 shrink-0">
+                        폴더 파일명: mp3/${escapeHtml(expectedName)}
+                      </span>
+                    </div>
+                  `
+                  : ver.note
+                  ? `<div class="text-xs text-emerald-700 font-semibold pt-1.5 border-t border-slate-200/60">📝 ${escapeHtml(ver.note)}</div>`
+                  : ''
+              }
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    function openSessionLinkModal(date, source) {
+      editingSessionLinkKey = `${date}__${source}`;
+      document.getElementById('sessionLinkTargetLabel').textContent = source;
+      document.getElementById('sessionLinkUrlInput').value = sessionLinks[editingSessionLinkKey] || '';
+      document.getElementById('sessionLinkModal').classList.remove('hidden');
+    }
+
+    function closeSessionLinkModal() {
+      document.getElementById('sessionLinkModal').classList.add('hidden');
+      editingSessionLinkKey = null;
+    }
+
+    function handleSessionLinkSubmit(e) {
+      e.preventDefault();
+      if (!editingSessionLinkKey) return;
+      const url = document.getElementById('sessionLinkUrlInput').value.trim();
+      if (url) {
+        sessionLinks[editingSessionLinkKey] = url;
+      } else {
+        delete sessionLinks[editingSessionLinkKey];
+      }
+      saveSessionLinksToStorage();
+      renderCurrentView();
+      if (activeSongKey) {
+        const song = archiveData.find((s) => s.key === activeSongKey);
+        if (song) renderModalVersionsList(song);
+      }
+      closeSessionLinkModal();
+      showToast('방송 원본 링크가 저장되었습니다!', 'success');
+    }
+
+    function clearCurrentSessionLink() {
+      if (!editingSessionLinkKey) return;
+      delete sessionLinks[editingSessionLinkKey];
+      saveSessionLinksToStorage();
+      renderCurrentView();
+      if (activeSongKey) {
+        const song = archiveData.find((s) => s.key === activeSongKey);
+        if (song) renderModalVersionsList(song);
+      }
+      closeSessionLinkModal();
+      showToast('방송 링크가 삭제되었습니다.', 'info');
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+      activeSongKey = null;
+    }
+
+    function updateSongArtist(newArtist) {
+      if (!activeSongKey) return;
+      const song = archiveData.find((s) => s.key === activeSongKey);
+      if (!song) return;
+      song.artist = (newArtist || '').trim();
+      saveArchiveToStorage();
+      updateStatsAndFilters();
+      renderCurrentView();
+      showToast('원곡자 정보가 저장되었습니다.', 'success');
+    }
+
+    function updateVersionNote(songKey, verId, newNote) {
+      const song = archiveData.find((s) => s.key === songKey);
+      if (!song) return;
+      const ver = song.versions.find((v) => v.id === verId);
+      if (!ver) return;
+      ver.note = (newNote || '').trim();
+      saveArchiveToStorage();
+      renderCurrentView();
+      showToast('메모가 저장되었습니다.', 'success');
+    }
+
+    function toggleVersionLengthType(songKey, verId) {
+      const song = archiveData.find((s) => s.key === songKey);
+      if (!song) return;
+      const ver = song.versions.find((v) => v.id === verId);
+      if (!ver) return;
+      ver.lengthType = ver.lengthType === 'snippet' ? 'full' : 'snippet';
+      saveArchiveToStorage();
+      renderModalVersionsList(song);
+      renderCurrentView();
+      showToast(
+        ver.lengthType === 'snippet' ? '✨ 한 소절로 변경되었습니다.' : '🎵 1절 이상으로 변경되었습니다.',
+        'info'
+      );
+    }
+
+    function openAddModal(prefillTitle = '', prefillArtist = '') {
+      document.getElementById('addTitleInput').value = prefillTitle;
+      document.getElementById('addArtistInput').value = prefillArtist;
+      document.getElementById('addDateInput').value = new Date().toISOString().slice(0, 10);
+      document.getElementById('addSourceInput').value = '';
+      document.getElementById('addSourceUrlInput').value = '';
+      document.getElementById('addLengthTypeInput').value = 'full';
+      document.getElementById('addNoteInput').value = '';
+      document.getElementById('addMp3Input').value = '';
+      document.getElementById('addModal').classList.remove('hidden');
+    }
+
+    function openAddVersionForCurrentSong() {
+      if (!activeSongKey) return;
+      const song = archiveData.find((s) => s.key === activeSongKey);
+      if (!song) return;
+      const title = song.title;
+      const artist = song.artist || '';
+      closeDetailModal();
+      openAddModal(title, artist);
+    }
+
+    function closeAddModal() {
+      document.getElementById('addModal').classList.add('hidden');
+    }
+
+    async function handleAddSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('addTitleInput').value.trim();
+      const artist = document.getElementById('addArtistInput').value.trim();
+      const date = document.getElementById('addDateInput').value;
+      const source = document.getElementById('addSourceInput').value.trim();
+      const sourceUrl = document.getElementById('addSourceUrlInput').value.trim();
+      const lengthType = document.getElementById('addLengthTypeInput').value;
+      const note = document.getElementById('addNoteInput').value.trim();
+      const fileInput = document.getElementById('addMp3Input');
+      const file = fileInput.files && fileInput.files[0];
+
+      if (!title || !date || !source) return;
+
+      if (sourceUrl) {
+        sessionLinks[`${date}__${source}`] = sourceUrl;
+        saveSessionLinksToStorage();
+      }
+
+      const key = normalizeSongKey(title, artist);
+      const verId = `${date}_${key}_${Date.now()}`;
+      const newVer = {
+        id: verId,
+        date,
+        source,
+        note,
+        lengthType,
+        orderIndex: 0,
+        mp3FileName: getExpectedMp3Filename(date, title)
+      };
+
+      let song = archiveData.find((s) => s.key === key);
+      if (song) {
+        if (!song.artist && artist) song.artist = artist;
+        song.versions.unshift(newVer);
+      } else {
+        song = {
+          key,
+          title,
+          artist,
+          firstOrderIndex: 0,
+          versions: [newVer]
+        };
+        archiveData.unshift(song);
+      }
+
+      if (file) {
+        await saveMp3Blob(verId, file);
+        const url = URL.createObjectURL(file);
+        mp3Registry.set(verId, { url, name: file.name, isStatic: false });
+      }
+
+      saveArchiveToStorage();
+      updateStatsAndFilters();
+      renderCurrentView();
+      closeAddModal();
+      showToast(`〈${title}〉 기록이 아카이브에 추가되었습니다!`, 'success');
+    }
+
+    // ==========================================
+    // 7. MP3 업로드 및 미니 플레이어 제어
+    // ==========================================
+    function triggerInlineMp3Upload(verId) {
+      pendingUploadTarget = verId;
+      const uploader = document.getElementById('inlineMp3Uploader');
+      uploader.value = '';
+      uploader.click();
+    }
+
+    async function handleInlineMp3Selected(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file || !pendingUploadTarget) return;
+      const verId = pendingUploadTarget;
+      pendingUploadTarget = null;
+
+      await saveMp3Blob(verId, file);
+      const url = URL.createObjectURL(file);
+      mp3Registry.set(verId, { url, name: file.name, isStatic: false });
+
+      updateStatsAndFilters();
+      renderCurrentView();
+      if (activeSongKey) {
+        const song = archiveData.find((s) => s.key === activeSongKey);
+        if (song) renderModalVersionsList(song);
+      }
+      showToast(`MP3 파일(${file.name})이 연결되었습니다!`, 'success');
+    }
+
+    async function removeVersionMp3(songKey, verId) {
+      const existing = mp3Registry.get(verId);
+      if (existing && !existing.isStatic && existing.url) {
+        URL.revokeObjectURL(existing.url);
+      }
+      mp3Registry.delete(verId);
+      await deleteMp3Blob(verId);
+
+      if (currentPlayingVerId === verId) {
+        audioEl.pause();
+        currentPlayingVerId = null;
+        document.getElementById('playPauseBtn').textContent = '▶';
+      }
+
+      updateStatsAndFilters();
+      renderCurrentView();
+      const song = archiveData.find((s) => s.key === songKey);
+      if (song) renderModalVersionsList(song);
+      showToast('연결된 로컬 MP3가 삭제되었습니다.', 'info');
+    }
+
+    function playVersionMp3(songKey, verId) {
+      const mp3 = mp3Registry.get(verId);
+      if (!mp3) return;
+
+      const song = archiveData.find((s) => s.key === songKey);
+      const ver = song ? song.versions.find((v) => v.id === verId) : null;
+
+      if (currentPlayingVerId === verId) {
+        togglePlayPause();
+        return;
+      }
+
+      currentPlayingVerId = verId;
+      audioEl.src = mp3.url;
+      audioEl.play().catch((err) => {
+        console.warn('재생 오류:', err);
+        showToast('오디오를 재생할 수 없습니다.', 'error');
+      });
+
+      document.getElementById('playerTitle').textContent = song ? song.title : mp3.name;
+      document.getElementById('playerSub').textContent = ver
+        ? `${ver.source} (${ver.date})`
+        : mp3.name;
+
+      const playBtn = document.getElementById('playPauseBtn');
+      playBtn.disabled = false;
+      playBtn.className =
+        'w-9 h-9 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition cursor-pointer';
+      playBtn.textContent = '⏸';
+
+      const dlBtn = document.getElementById('downloadCurrentMp3Btn');
+      dlBtn.disabled = false;
+      dlBtn.className =
+        'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition cursor-pointer';
+
+      document.getElementById('playerDisc').className =
+        'w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 animate-pulse';
+
+      renderCurrentView();
+      if (activeSongKey) {
+        const activeSong = archiveData.find((s) => s.key === activeSongKey);
+        if (activeSong) renderModalVersionsList(activeSong);
+      }
+    }
+
+    function togglePlayPause() {
+      if (!audioEl.src) return;
+      if (audioEl.paused) {
+        audioEl.play();
+      } else {
+        audioEl.pause();
+      }
+    }
+
+    function skipAudio(sec) {
+      if (!audioEl.src || isNaN(audioEl.duration)) return;
+      audioEl.currentTime = Math.max(0, Math.min(audioEl.duration, audioEl.currentTime + sec));
+    }
+
+    function seekAudio(pct) {
+      if (!audioEl.src || isNaN(audioEl.duration)) return;
+      audioEl.currentTime = (pct / 100) * audioEl.duration;
+    }
+
+    function formatTime(sec) {
+      if (isNaN(sec) || !isFinite(sec)) return '0:00';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function downloadCurrentMp3() {
+      if (!currentPlayingVerId) return;
+      const mp3 = mp3Registry.get(currentPlayingVerId);
+      if (!mp3) return;
+      const a = document.createElement('a');
+      a.href = mp3.url;
+      a.download = mp3.name || 'youngjae_cover.mp3';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    audioEl.addEventListener('timeupdate', () => {
+      if (!audioEl.duration) return;
+      const pct = (audioEl.currentTime / audioEl.duration) * 100;
+      document.getElementById('seekBar').value = pct;
+      document.getElementById('currentTimeLabel').textContent = formatTime(audioEl.currentTime);
+      document.getElementById('durationLabel').textContent = formatTime(audioEl.duration);
+    });
+
+    audioEl.addEventListener('play', () => {
+      document.getElementById('playPauseBtn').textContent = '⏸';
+      renderCurrentView();
+    });
+
+    audioEl.addEventListener('pause', () => {
+      document.getElementById('playPauseBtn').textContent = '▶';
+      document.getElementById('playerDisc').classList.remove('animate-pulse');
+      renderCurrentView();
+    });
+
+    audioEl.addEventListener('ended', () => {
+      document.getElementById('playPauseBtn').textContent = '▶';
+      document.getElementById('playerDisc').classList.remove('animate-pulse');
+      renderCurrentView();
+    });
+
+    // ==========================================
+    // 8. 백업 / 복원 / 초기화 및 앱 부트스트랩
+    // ==========================================
+    function openBackupModal() {
+      document.getElementById('backupModal').classList.remove('hidden');
+    }
+
+    function closeBackupModal() {
+      document.getElementById('backupModal').classList.add('hidden');
+    }
+
+    function exportArchiveJson() {
+      const blob = new Blob([JSON.stringify(archiveData, null, 2)], {
+        type: 'application/json'
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `youngjae_cover_archive_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('JSON 백업 파일이 다운로드되었습니다.', 'success');
+    }
+
+    function importArchiveJson(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (!Array.isArray(parsed)) throw new Error('Invalid format');
+          archiveData = parsed;
+          saveArchiveToStorage();
+          updateStatsAndFilters();
+          renderCurrentView();
+          closeBackupModal();
+          showToast('백업 데이터를 성공적으로 불러왔습니다!', 'success');
+        } catch (err) {
+          showToast('올바른 JSON 백업 파일이 아닙니다.', 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function copyMp3NamingGuide() {
+      const lines = [];
+      archiveData.forEach((song) => {
+        song.versions.forEach((ver) => {
+          const fname = ver.mp3FileName || getExpectedMp3Filename(ver.date, song.title);
+          lines.push(`mp3/${fname}  (${ver.source} - ${song.title})`);
+        });
+      });
+      const text = lines.join('\n');
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast(`전체 ${lines.length}개 MP3 파일명 규칙이 클립보드에 복사되었습니다!`, 'success');
+    }
+
+    function resetToDefaultDataset() {
+      archiveData = JSON.parse(JSON.stringify(INITIAL_DATASET));
+      saveArchiveToStorage();
+      updateStatsAndFilters();
+      renderCurrentView();
+      closeBackupModal();
+      showToast('최신 기본 아카이브 데이터로 초기화되었습니다.', 'success');
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      initAdminMode();
+      loadArchiveFromStorage();
+      loadSessionLinksFromStorage();
+      await loadAllSavedMp3Blobs();
+      updateStatsAndFilters();
+      renderCurrentView();
+      probeStaticMp3Files();
+    });
+  </script>
+</body>
+</html>
